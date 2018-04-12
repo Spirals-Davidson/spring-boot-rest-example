@@ -4,7 +4,7 @@ pipeline {
 
     stages {
 	
-		stage('chechout and reset to branch') {
+		stage('checkout and reset to branch') {
 			agent { label 'master' }
 			steps {
 				sh 'git checkout $BRANCH_NAME'
@@ -25,14 +25,14 @@ pipeline {
 				sh 'mvn test'
 			}
         }
-		/*
+		
 		stage('Sonar') {
 			agent { label 'master' }
 			steps {
-				echo "TODO"
-			  // sh 'mvn sonar:sonar'
+				sh 'mvn sonar:sonar'
 			}
         }
+		/*
 		stage ('Deploy to development environment') {
 			stage("front") {
 				agent { label 'master' }
