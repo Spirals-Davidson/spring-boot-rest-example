@@ -1,14 +1,13 @@
 package com.khoubyari.example.service;
 
-import com.khoubyari.example.domain.Hotel;
-import com.khoubyari.example.dao.jpa.HotelRepository;
+import com.khoubyari.example.entity.Hotel;
+import com.khoubyari.example.repository.HotelRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.CounterService;
-import org.springframework.boot.actuate.metrics.GaugeService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /*
@@ -22,38 +21,35 @@ public class HotelService {
     @Autowired
     private HotelRepository hotelRepository;
 
-    @Autowired
-    CounterService counterService;
-
-    @Autowired
-    GaugeService gaugeService;
-
     public HotelService() {
     }
 
-    public Hotel createHotel(Hotel hotel) {
+    public Hotel create(final Hotel hotel) {
         return hotelRepository.save(hotel);
     }
 
-    public Hotel getHotel(long id) {
+    public Hotel get(long id) {
         return hotelRepository.findOne(id);
     }
 
-    public void updateHotel(Hotel hotel) {
-        hotelRepository.save(hotel);
+    public Hotel update(final Hotel hotel) {
+        Hotel hotelFromDb = get(hotel.getId());
+        hotelFromDb.setCity(hotel.getCity());
+        hotelFromDb.setDescription(hotel.getDescription());
+        hotelFromDb.setName(hotel.getName());
+        hotelFromDb.setRating(hotel.getRating());
+        return hotelRepository.save(hotelFromDb);
     }
 
-    public void deleteHotel(Long id) {
+    public void delete(long id) {
         hotelRepository.delete(id);
     }
 
-    //http://goo.gl/7fxvVf
-    public Page<Hotel> getAllHotels(Integer page, Integer size) {
-        Page pageOfHotels = hotelRepository.findAll(new PageRequest(page, size));
-        // example of adding to the /metrics
-        if (size > 50) {
-            counterService.increment("Khoubyari.HotelService.getAll.largePayload");
-        }
-        return pageOfHotels;
+    public Page<Hotel> getAll(final Pageable pageable) {
+        return hotelRepository.findAll(pageable);
+    }
+
+    public Page<Hotel> getByCity(final String city, final Pageable pageable){
+        return hotelRepository.findHotelByCity(city, pageable);
     }
 }

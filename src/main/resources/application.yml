@@ -1,13 +1,13 @@
 ### This is the main way to configure the application (other than annotations).
 ### This file is in Yaml format but you can also configure spring boot using the traditional
 ### Java properties file format. 
-
-spring.jmx:
-   enabled: false
+#
+#spring.jmx:
+#   enabled: false
 
 spring.datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:bootexample;MODE=MySQL
+    url: jdbc:h2:file:~/bootexample
 
 server:
   port: 8090
@@ -45,7 +45,7 @@ spring:
       enabled: true
 
 spring.jpa:
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: update
 
 hotel.service:
   name: 'test profile:'

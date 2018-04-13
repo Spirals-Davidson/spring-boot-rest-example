@@ -3,6 +3,7 @@ package com.khoubyari.example.exception;
 /**
  * For HTTP 404 errros
  */
+
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException() {
         super();

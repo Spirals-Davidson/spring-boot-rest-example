@@ -1,4 +1,4 @@
-package com.khoubyari.example.domain;
+package com.khoubyari.example.entity;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
@@ -7,25 +7,21 @@ import javax.xml.bind.annotation.*;
  * a simple domain entity doubling as a DTO
  */
 @Entity
-@Table(name = "hotel")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Hotel {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue
     private long id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column()
     private String description;
 
-    @Column()
-    String city;
+    private String city;
 
-    @Column()
     private int rating;
 
     public Hotel() {
