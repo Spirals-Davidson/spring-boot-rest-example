@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khoubyari.example.Application;
 import com.khoubyari.example.entity.Hotel;
-import com.khoubyari.example.helper.PageHelper;
+import com.khoubyari.example.test.helper.PageHelper;
 import com.khoubyari.example.repository.HotelRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -180,5 +180,15 @@ public class HotelControllerTest {
         Hotel returnedHotel = new Hotel();
         if(returnedHotels.iterator().hasNext()) returnedHotel = returnedHotels.iterator().next();
         assertEquals(hotel1, returnedHotel);
+    }
+
+    @Test
+    public void test_suite_fibonnacci_courte(){
+        assertEquals(89, Application.fibonacci(11, 0, 1));
+    }
+
+    @Test
+    public void test_suite_fibonnacci_use_puissance(){
+        assertEquals(433494437, Application.fibonacci(43, 0, 1));
     }
 }

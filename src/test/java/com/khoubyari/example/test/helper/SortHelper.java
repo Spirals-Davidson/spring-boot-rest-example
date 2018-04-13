@@ -1,4 +1,4 @@
-package com.khoubyari.example.helper;
+package com.khoubyari.example.test.helper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
