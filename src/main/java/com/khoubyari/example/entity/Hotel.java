@@ -1,14 +1,9 @@
 package com.khoubyari.example.entity;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.*;
+import java.util.Objects;
 
-/*
- * a simple domain entity doubling as a DTO
- */
 @Entity
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Hotel {
 
     @Id
@@ -83,5 +78,22 @@ public class Hotel {
                 ", city='" + city + '\'' +
                 ", rating=" + rating +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hotel hotel = (Hotel) o;
+        return id == hotel.id &&
+                rating == hotel.rating &&
+                Objects.equals(name, hotel.name) &&
+                Objects.equals(description, hotel.description) &&
+                Objects.equals(city, hotel.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, city, rating);
     }
 }

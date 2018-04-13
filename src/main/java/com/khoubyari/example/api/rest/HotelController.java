@@ -57,7 +57,6 @@ public class HotelController {
         return this.hotelService.update(hotel);
     }
 
-    //todo: @ApiImplicitParams, @ApiResponses
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "Delete a hotel resource.", notes = "You have to provide a valid hotel ID in the URL. Once deleted the resource can not be recovered.")
     public void deleteHotel(@ApiParam(value = "The ID of the existing hotel resource.", required = true)
