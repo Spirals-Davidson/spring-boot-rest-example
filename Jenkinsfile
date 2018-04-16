@@ -28,17 +28,17 @@ pipeline {
 	*/
 		stage('Test'){
 			parallel {
-		        stage("test") {
+                stage("powerapi listen") {
+                    agent { label 'powerapi' }
+                    steps {
+						sh 'powerapi modules procfs-cpu-simple monitor --frequency 500 --pids $! --console'
+                    }
+                }
+				stage("test") {
                     agent { label 'powerapi' }
                     steps {
 						sh 'mvn test'
 						sh 'echo Le pid des tests: \$!' 
-                    }
-                }
-                stage("powerapi listen") {
-                    agent { label 'powerapi' }
-                    steps {
-						sh 'powerapi modules procfs-cpu-simple monitor --frequency 500 --pids PS-TEST-HERE --console'
                     }
                 }
             }
