@@ -28,15 +28,22 @@ pipeline {
 	*/
 		stage('Test with groovy'){
 			agent { label 'powerapi' }
-			steps {
-				thread = Thread.start( { pid = "mvn test".execute() } )
-				thread = Thread.start( { while (pid != null) sleep(200); "powerapi modules procfs-cpu-simple monitor --frequency 500 --pids $pid --console".execute() } )
-				thread1.run()
-				thread2.run()
-				thread1.wait()
-				thread2.wait()
-			}
+			parallel {
+		        stage("test") {
+                    agent { label 'powerapi' }
+                    steps {
+						sh 'mvn test'	
+                    }
+                }
+                stage("powerapi listen") {
+                    agent { label 'powerapi' }
+                    steps {
+						sh 'powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console'
+                    }
+                }
+            }
 		}
+		
 		stage('Sonar') {
 			agent { label 'master' }
 			steps {
