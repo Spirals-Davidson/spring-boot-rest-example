@@ -26,8 +26,7 @@ pipeline {
 			}
         }
 	*/
-		stage('Test with groovy'){
-			agent { label 'powerapi' }
+		stage('Test'){
 			parallel {
 		        stage("test") {
                     agent { label 'powerapi' }
