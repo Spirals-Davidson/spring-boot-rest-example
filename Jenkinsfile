@@ -37,7 +37,7 @@ pipeline {
                 stage("powerapi listen") {
                     agent { label 'powerapi' }
                     steps {
-						sh 'powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console'
+						sh 'powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \${!} --console'
                     }
                 }
             }
