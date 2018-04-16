@@ -11,21 +11,21 @@ pipeline {
 				sh 'git reset origin/$BRANCH_NAME --hard'
             }
 		}
-	
+	/*
 		stage('Build') {
 			agent { label 'master' }
 			steps {
 				sh 'mvn clean install -Dmaven.test.skip=true'
             }
 		}
-	/*
+	*/
         stage('Test') {
 			agent { label 'powerapi' }
 			steps {
-				sh 'mvn test & && powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console'	
+				sh 'mvn test | powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console'	
 			}
         }
-	*/
+	/*
 		stage('Test'){
 			parallel {
                 stage("powerapi listen") {
@@ -43,7 +43,7 @@ pipeline {
                 }
             }
 		}
-		
+	*/
 		stage('Sonar') {
 			agent { label 'master' }
 			steps {
