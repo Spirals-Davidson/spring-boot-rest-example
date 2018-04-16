@@ -22,10 +22,11 @@ pipeline {
         stage('Test') {
 			agent { label 'powerapi' }
 			steps {
-				sh 'mvn test'
+				sh 'mvn test &'
+				sh 'powerapi modules procfs-cpu-simple monitor --frequency 500 --pids $! --console &'
 			}
         }
-		
+		    
 		stage('Sonar') {
 			agent { label 'master' }
 			steps {
