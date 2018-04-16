@@ -22,8 +22,7 @@ pipeline {
         stage('Test') {
 			agent { label 'powerapi' }
 			steps {
-				sh 'mvn test & powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console duration 20'	
-				sh 'echo Le pid: \$!'
+				sh '(mvn test > text.txt & powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --agg median --console duration 20); cat text.txt'	
 			}
         }
 	
