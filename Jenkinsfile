@@ -22,7 +22,7 @@ pipeline {
         stage('Test') {
 			agent { label 'powerapi' }
 			steps {
-				sh '(mvn test > text.txt & powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --agg median --console duration 20); cat text.txt'	
+				sh '(mvn test > mvnTest.txt & powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --agg median --console duration 20 > powerapiPM.txt); cat mvnTest.txt; cat powerapiPM.txt'	
 			}
         }
 	
