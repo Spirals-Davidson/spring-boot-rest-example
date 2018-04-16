@@ -22,12 +22,9 @@ pipeline {
         stage('Test') {
 			agent { label 'powerapi' }
 			steps {
-				sh 'mvn test > env.txt &'
+				sh 'mvn test > mvntest.txt &'
 				sh 'powerapi modules procfs-cpu-simple monitor --frequency 500 --pids $! --console'
-				/* Print the mvn test */
-				for (String i : readFile('env.txt').split("\r?\n")) {
-					println i
-				}
+				sh 'cat mvntest.txt'
 			}
         }
 		    
