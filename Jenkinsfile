@@ -32,7 +32,7 @@ pipeline {
 			steps {
 				script {
 					sh 'mvn test & PIDTest=$!'
-					echo 'Le PID des tests $PIDTest'
+					sh 'echo Le PID des tests $PIDTest'
 				}
 			}
 		}
