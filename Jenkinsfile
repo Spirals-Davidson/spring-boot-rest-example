@@ -31,8 +31,7 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					mvn test
-					def PIDTest = echo $!
+					def PIDTest = "test"
 					echo "${PIDTest}"
 				}
 			}
