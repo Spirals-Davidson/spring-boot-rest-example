@@ -32,9 +32,8 @@ pipeline {
 			steps {
 				script {
 					def PIDTest = ""
-					sh 'mvn test > ${PIDTest} &'
-					
-					echo "${PIDTest}"
+					sh 'mvn test & PIDTest=$!'
+					echo "Le PID des tests: $! OU \$! ou ${PIDTest}"
 				}
 			}
 		}
