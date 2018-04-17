@@ -33,7 +33,7 @@ pipeline {
 				script {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					echo "Le PID des tests ${output}"
-					sh "powerapi modules procfs-cpu-simple monitor duration 40 --frequency 500 --console --pids ${output}"
+					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 500 --console --pids ${output}"
 				}
 			}
 		}
