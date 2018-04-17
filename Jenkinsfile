@@ -31,8 +31,9 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					def output = sh (script: 'mvn test > test.txt & echo $! | cat test.txt',returnStdout: true)
+					def output = sh (script: 'mesTest=$(mvn test) & echo $!',returnStdout: true)
 					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 500 --console --pids ${output}"
+					echo "mes test: $mesTest"
 				}
 			}
 		}
