@@ -31,8 +31,9 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					def output = sh (script: 'mvn test',returnStdout: true)
+					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					echo "Le PID des tests ${output}"
+					sh 'powerapi modules procfs-cpu-simple monitor --frequency 500 --pids ${output} --console duration 40)'
 				}
 			}
 		}
