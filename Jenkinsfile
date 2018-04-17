@@ -31,7 +31,9 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					def PIDTest = "test"
+					def PIDTest = ""
+					sh 'mvn test > ${PIDTest} &'
+					
 					echo "${PIDTest}"
 				}
 			}
