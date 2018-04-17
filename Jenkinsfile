@@ -31,7 +31,7 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					def output = sh 'mvn test & PIDTest=$!'
+					def output = sh (script: 'mvn test & PIDTest=$!',returnStdout: true)
 					echo "Le PID des tests ${output}"
 				}
 			}
