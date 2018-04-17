@@ -33,7 +33,7 @@ pipeline {
 				script {
 					def PIDTest = ""
 					sh 'mvn test & PIDTest=$!'
-					echo "Le PID des tests: $! OU \$! ou ${PIDTest}"
+					//echo "Le PID des tests: $! OU \$! ou ${PIDTest}"
 				}
 			}
 		}
