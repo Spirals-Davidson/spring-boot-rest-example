@@ -18,22 +18,22 @@ pipeline {
 				sh 'mvn clean install -Dmaven.test.skip=true'
             }
 		}
-/*	
-        stage('Test') {
-			agent { label 'powerapi' }
-			steps {
-				sh '(mvn test & powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console duration 40) ' 
-				/* | grep \"muid\" */
-			}
-        }
-*/
+	
+//      stage('Test') {
+//			agent { label 'powerapi' }
+//			steps {
+//				sh '(mvn test & powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console duration 40) ' 
+//				/* | grep \"muid\" */
+//			}
+//      }
+
 		stage('Test') {
 			agent { label 'powerapi' }
 			steps {
 				script {
 					mvn test
 					def PIDTest = echo $!
-					echo ${PIDTest}
+					echo "${PIDTest}"
 				}
 			}
 		}
