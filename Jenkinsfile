@@ -18,7 +18,7 @@ pipeline {
 				sh 'mvn clean install -Dmaven.test.skip=true'
             }
 		}
-	
+/*	
         stage('Test') {
 			agent { label 'powerapi' }
 			steps {
@@ -26,7 +26,18 @@ pipeline {
 				/* | grep \"muid\" */
 			}
         }
-	
+*/
+		stage('Test') {
+			agent { label 'powerapi' }
+			steps {
+				script {
+					mvn test
+					def PIDTest = echo $!
+					echo ${PIDTest}
+				}
+			}
+		}
+		
 		stage('Sonar') {
 			agent { label 'master' }
 			steps {
