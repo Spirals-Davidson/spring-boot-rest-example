@@ -22,7 +22,7 @@ pipeline {
         stage('Test') {
 			agent { label 'powerapi' }
 			steps {
-				sh '(mvn test & powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console duration 20) ' 
+				sh '(mvn test & powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console duration 40) ' 
 				/* | grep \"muid\" */
 			}
         }
