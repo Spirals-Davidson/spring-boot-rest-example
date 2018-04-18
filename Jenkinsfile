@@ -1,5 +1,3 @@
-@Library('JenkisFile-PowerAPICI')
-
 pipeline {
 
     agent none
@@ -35,33 +33,10 @@ pipeline {
 				script {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 500 --console --pids ${output}"
-					/*
-					fonction()
-					def toto = "blabla"
-					def titi = toto.split("a")
-					def tata= new Toroto(titi)
-					
-					for (def var : titi) 
-						println("lzvzr : $var")
-						
-						
-					var powerApitools = new PowerApitools()	
-					powerApitools.sendToElastic(pid);	
-					*/
 				}
 			}
 		}
-		/*
-		stage('Test groovy') {
-			agent { label 'powerapi' }
-			steps {
-				script {
-					def testS = new TestScript()
-					testS.fonction()
-				}
-			}
-		}
-		*/
+		
 		stage('Sonar') {
 			agent { label 'master' }
 			steps {
