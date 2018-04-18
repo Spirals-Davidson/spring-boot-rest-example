@@ -29,12 +29,12 @@ pipeline {
 			}
 		}
 
-		stage('Test only powerapi') {
-			agent { label 'powerapi' }
-			steps {
-				script {
-					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
-					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 500 --console --pids ${output}"
+		//stage('Test only powerapi') {
+		//	agent { label 'powerapi' }
+		//	steps {
+		//		script {
+		//			def output = sh (script: 'mvn test & echo $!',returnStdout: true)
+		//			sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 500 --console --pids ${output}"
 					/*
 					fonction()
 					def toto = "blabla"
@@ -48,9 +48,9 @@ pipeline {
 					var powerApitools = new PowerApitools()	
 					powerApitools.sendToElastic(pid);	
 					*/
-				}
-			}
-		}
+		//		}
+		//	}
+		//}
 		
 		stage('Test groovy') {
 			agent { label 'powerapi' }
