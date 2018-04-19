@@ -8,12 +8,7 @@ pipeline {
 
     stages {
 	
-		stage('Set JAVA_HOME'){
-			agent { label master }
-			steps {
-				sh "export JAVA_HOME=$JAVA_HOME"
-			}	
-		}	
+		
 		
 		stage('checkout and reset to branch') {
 			agent { label 'master' }
