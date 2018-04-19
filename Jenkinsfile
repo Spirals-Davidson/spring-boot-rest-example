@@ -3,7 +3,7 @@ pipeline {
     agent none
 	
 	environment {
-        JAVA_HOME="/usr/lib/jvm/java-1.7.0-openjdk-amd64"
+        JAVA_HOME='/usr/lib/jvm/java-1.7.0-openjdk-amd64'
     }
 
     stages {
@@ -54,15 +54,15 @@ pipeline {
 			}
 		}
 		
-		stage('test groovy'){
-			agent { label 'powerapi' }
-			steps {
-				script {
-					def testS = new TestScript()
-					testS.fonction()
-				}
-			}	
-		}	
+		//stage('test groovy'){
+			//agent { label 'powerapi' }
+			//steps {
+				//script {
+					//def testS = new TestScript()
+					//testS.fonction()
+				//}
+			//}	
+		//}	
 		
 		stage('Sonar') {
 			agent { label 'master' }
