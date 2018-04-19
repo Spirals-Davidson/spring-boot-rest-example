@@ -7,12 +7,11 @@ pipeline {
     }
 
     stages {
-	
-		
 		
 		stage('checkout and reset to branch') {
 			agent { label 'master' }
 			steps {
+				sh "export JAVA_HOME=${JAVA_HOME}"
 				sh 'git checkout $BRANCH_NAME'
 				sh 'git reset origin/$BRANCH_NAME --hard'
             }
