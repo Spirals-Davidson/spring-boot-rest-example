@@ -3,11 +3,18 @@ pipeline {
     agent none
 	
 	environment {
-        sh "export JAVA_HOME='/usr/lib/jvm/java-1.7.0-openjdk-amd64'"
+        JAVA_HOME='/usr/lib/jvm/java-1.7.0-openjdk-amd64'
     }
 
     stages {
 	
+		stage('Set JAVA_HOME'){
+			agent { label master }
+			steps {
+				sh "export JAVA_HOME=$JAVA_HOME"
+			}	
+		}	
+		
 		stage('checkout and reset to branch') {
 			agent { label 'master' }
 			steps {
