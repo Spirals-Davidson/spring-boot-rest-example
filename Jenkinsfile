@@ -26,28 +26,17 @@ pipeline {
 				/* | grep \"muid\" */
 			}
 		}
-//muid=04a3cad8-a755-406e-89a2-e1cb837dc147;timestamp=1524229035587;targets=53246;devices=cpu;power=22540.000000000004 mW
-		stage('Test only powerapi') {
-			agent { label 'powerapi' }
-			steps {
-				script {
-					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
-					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}"
-					/*
-					fonction()
-					def toto = "blabla"
-					def titi = toto.split("a")
-					def tata= new Toroto(titi)
-					
-					for (def var : titi) 
-						println("lzvzr : $var")
-						
-						
-					var powerApitools = new PowerApitools()	
-					powerApitools.sendToElastic(pid);	
-					*/
+		timestamps {
+			logstash {
+				stage('Test only powerapi') {
+					agent { label 'powerapi' }
+					steps {
+						script {
+							def output = sh (script: 'mvn test & echo $!',returnStdout: true)
+							sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}"
+						}
+					}
 				}
-				logstashSend failBuild: true, maxLines: 1000
 			}
 		}
 		
