@@ -61,7 +61,7 @@ pipeline {
 				//}
 			//}	
 		//}	
-		
+		/*
 		//stage('Sonar') {
 		//	agent { label 'powerapi' }
 		//	steps {
