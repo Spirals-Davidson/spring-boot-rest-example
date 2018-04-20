@@ -9,7 +9,7 @@ pipeline {
     stages {
 		
 		stage('checkout and reset to branch') {
-			agent { label 'master' }
+			agent { label 'powerapi' }
 			steps {
 				sh 'git checkout $BRANCH_NAME'
 				sh 'git reset origin/$BRANCH_NAME --hard'
@@ -17,7 +17,7 @@ pipeline {
 		}
 	
 		stage('Build') {
-			agent { label 'master' }
+			agent { label 'powerapi' }
 			steps {
 				sh 'mvn clean install -Dmaven.test.skip=true'
             }
@@ -65,7 +65,7 @@ pipeline {
 		//}	
 		
 		stage('Sonar') {
-			agent { label 'master' }
+			agent { label 'powerapi' }
 			steps {
 				sh 'mvn sonar:sonar'
 			}
