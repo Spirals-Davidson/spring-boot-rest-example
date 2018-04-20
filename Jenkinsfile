@@ -30,14 +30,12 @@ pipeline {
 		stage('Test only powerapi') {
 			agent { label 'powerapi' }
 			steps {
-				timestamps {
-					logstash {
-						script {
-							def output = sh (script: 'mvn test & echo $!',returnStdout: true)
-							sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}"
-						}
+				script {
+					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
+					timestamps {
+						sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}"
 					}
-				}
+				}	
 			}	
 		}
 		
