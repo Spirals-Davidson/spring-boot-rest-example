@@ -22,7 +22,7 @@ pipeline {
 		stage('Test with mvn test and powerapi') {
 			agent { label 'powerapi' }
 			steps {
-				sh '(mvn test & powerapi modules procfs-cpu-simple monitor --frequency 500 --pids \$! --console duration 40) ' 
+				sh '(mvn test & powerapi modules procfs-cpu-simple monitor --frequency 1000 --pids \$! --console duration 40) ' 
 				/* | grep \"muid\" */
 			}
 		}
@@ -32,7 +32,7 @@ pipeline {
 			steps {
 				script {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
-					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 500 --console --pids ${output}"
+					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}"
 					
 					logstashSend failBuild: true, maxLines: 1000
 					/*
