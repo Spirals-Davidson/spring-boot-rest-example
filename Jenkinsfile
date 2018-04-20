@@ -33,6 +33,8 @@ pipeline {
 				script {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 500 --console --pids ${output}"
+					
+					logstashSend failBuild: true, maxLines: 1000
 					/*
 					fonction()
 					def toto = "blabla"
@@ -60,12 +62,12 @@ pipeline {
 			//}	
 		//}	
 		
-		stage('Sonar') {
-			agent { label 'powerapi' }
-			steps {
-				sh 'mvn sonar:sonar'
-			}
-        }
+		//stage('Sonar') {
+		//	agent { label 'powerapi' }
+		//	steps {
+		//		sh 'mvn sonar:sonar'
+		//	}
+        //}
 		/*
 		stage ('Deploy to development environment') {
 			stage("front") {
