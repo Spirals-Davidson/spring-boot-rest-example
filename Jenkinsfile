@@ -26,10 +26,11 @@ pipeline {
 				/* | grep \"muid\" */
 			}
 		}
-		timestamps {
-			logstash {
-				stage('Test only powerapi') {
-					agent { label 'powerapi' }
+
+		stage('Test only powerapi') {
+			agent { label 'powerapi' }
+			timestamps {
+				logstash {
 					steps {
 						script {
 							def output = sh (script: 'mvn test & echo $!',returnStdout: true)
