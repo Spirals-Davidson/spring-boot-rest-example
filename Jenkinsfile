@@ -32,11 +32,12 @@ pipeline {
 			steps {
 				script {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
-					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}"
-					logstashSend failBuild: true, maxLines: 1000
+					def powerData = sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}"
+					sh "echo ${powerData}"
 				}
 			}					
 		}
+		//logstash -f fichierconf.conf
 		
 		
 		//stage('test groovy'){
