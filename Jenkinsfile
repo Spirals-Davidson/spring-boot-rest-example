@@ -33,7 +33,7 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					ESQuery esQuery = new ESQuery()
+					def esQuery = new ESQuery()
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					sh "(powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) > data.csv"
 					def fileDataJson = esQuery.csv2jsonFile('data.csv')
