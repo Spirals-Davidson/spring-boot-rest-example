@@ -27,7 +27,6 @@ pipeline {
 			// }
 		// }
 
-		timestamps {
 			stage('Test only powerapi') {
 				agent { label 'powerapi' }
 				steps {
@@ -37,7 +36,7 @@ pipeline {
 					}	
 				}	
 			}
-		}
+		
 		
 		//stage('test groovy'){
 			//agent { label 'powerapi' }
