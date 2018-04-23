@@ -27,15 +27,16 @@ pipeline {
 			// }
 		// }
 
-		stage('Test only powerapi') {
-			agent { label 'powerapi' }
-			options { timestamps() }
-			steps {
-				script {
-					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
-					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}"
+		timestamps {
+			stage('Test only powerapi') {
+				agent { label 'powerapi' }
+				steps {
+					script {
+						def output = sh (script: 'mvn test & echo $!',returnStdout: true)
+						sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}"
+					}	
 				}	
-			}	
+			}
 		}
 		
 		//stage('test groovy'){
