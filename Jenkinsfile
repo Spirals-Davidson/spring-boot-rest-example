@@ -1,8 +1,11 @@
 pipeline {
 
     agent none
-
-    stages {
+	
+	stages {
+		node {
+			sh 'echo coucou'
+		}
 		
 		stage('checkout and reset to branch') {
 			agent { label 'powerapi' }
@@ -49,7 +52,7 @@ pipeline {
 		//}	
 		/*
 		// stage('Sonar') {
-			// agent { label 'powerapi' }
+			// agent { label 'master' }
 			// steps {
 				// sh 'mvn sonar:sonar'
 			// }
