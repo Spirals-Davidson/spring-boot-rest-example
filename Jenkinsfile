@@ -29,9 +29,6 @@ pipeline {
 
 		stage('Test only powerapi') {
 			agent { label 'powerapi' }
-			options {
-				timestamps()
-			}
 			steps {
 				script {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
