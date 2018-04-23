@@ -7,7 +7,7 @@ pipeline {
 	stages {
 			
 		stage('checkout and reset to branch') {
-			agent { label 'powerapi' }
+			agent { label 'master' }
 			steps {
 				sh 'git checkout $BRANCH_NAME'
 				sh 'git reset origin/$BRANCH_NAME --hard'
@@ -15,7 +15,7 @@ pipeline {
 		}
 	
 		stage('Build') {
-			agent { label 'powerapi' }
+			agent { label 'matser' }
 			steps {
 				sh 'mvn clean install -Dmaven.test.skip=true'
             }
@@ -33,10 +33,9 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					def esquery = load 'ESQuery.groovy'
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					sh "(powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) > data.csv"
-					def fileDataJson = esquery.csv2jsonFile('data.csv')
+					def fileDataJson = ESQuery.csv2jsonFile('data.csv')
 					sh "curl --header \"content-type: application/JSON\" -XPUT \"http://elasticsearch.app.projet-davidson.fr/powerapi/power/5\" -d@${fileDataJson}"
 				}
 			}					
