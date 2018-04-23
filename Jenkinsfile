@@ -32,7 +32,7 @@ pipeline {
 			steps {
 				script {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
-					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output} > titi.txt"
+					sh "(powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) > titi.txt"
 					sh 'cat titi.txt'
 				}
 			}					
