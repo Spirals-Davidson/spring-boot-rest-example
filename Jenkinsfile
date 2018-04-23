@@ -31,12 +31,9 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					sh 'echo toto > toto.txt'
-					sh 'cat toto.txt'
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
-					String powerData = sh (script: "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}", returnStdout: true)
-					
-					sh "echo ${powerData}"
+					sh "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output} > titi.txt")
+					sh 'cat titi.txt'
 				}
 			}					
 		}
