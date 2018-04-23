@@ -1,3 +1,5 @@
+@Library('JenkisFile-PowerAPICI')
+
 pipeline {
 
     agent none
