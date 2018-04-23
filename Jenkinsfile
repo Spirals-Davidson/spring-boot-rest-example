@@ -5,6 +5,7 @@ node {
 	}
 	
 	stage('Build') {
+		agent { label 'powerapi'}
 		sh 'mvn clean install -Dmaven.test.skip=true'
 	}
 	
