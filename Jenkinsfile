@@ -50,7 +50,7 @@ pipeline {
 					sh "echo import file OK"
 					
 					sh 'echo convertion cvs to json'
-					def fileDataJson = esQuery.csv2jsonFile(fileDataCSV)
+					def fileDataJson = esQuery.csv2jsonFile(csvLine)
 					sh 'echo convertion reussit'
 					
 					println("Le fichier: "+fileDataJson)
