@@ -45,15 +45,11 @@ pipeline {
 					
 					*/				
 					
-					def csvLine = sh (script: "cat data.csv",returnStdout: true)
-					println("CSVLine: "+csvLine)
-					
-					sh 'echo convertion cvs to json' 
+					def csvLine = sh (script: "cat data.csv",returnStdout: true)					
 					def fileDataJson = esQuery.csv2jsonString(csvLine)
-					sh 'echo convertion reussit'
 					 
 					println("Le fichier: \n"+fileDataJson)
-					sh "curl --header 'content-type: application/JSON' -XPUT 'http://elasticsearch.app.projet-davidson.fr/powerapi/power/testing' -d '${fileDataJson}'"
+					sh "curl --header \'content-type: application/JSON\' -XPUT 'http://elasticsearch.app.projet-davidson.fr/powerapi/power/testing' -d '${fileDataJson}'"
 				
 					
 					//sh "curl --header \"content-type: application/JSON\" -XPUT \"http://elasticsearch.app.projet-davidson.fr/powerapi/power/5\" -d@${fileDataJson}"
