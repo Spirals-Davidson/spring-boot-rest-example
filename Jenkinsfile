@@ -38,18 +38,20 @@ pipeline {
 					sh "((powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) | grep muid) > data.csv"
 					
 					
-					/* TEST */
+					/* TEST 
+					
+						sh "echo import file.."
+						def fileDataCSV = new File("data.csv") 
+						sh "echo import file OK"
+					
+					*/
 					sh "cat data.csv"
 					
 					
 					def csvLine = sh (script: "cat data.csv",returnStdout: true)
 					println("CSVLine: "+csvLine)
 					
-					sh "echo import file.."
-					def fileDataCSV = new File("data.csv") 
-					sh "echo import file OK"
-					
-					sh 'echo convertion cvs to json'
+					sh 'echo convertion cvs to json' 
 					def fileDataJson = esQuery.csv2jsonString(csvLine)
 					sh 'echo convertion reussit'
 					
