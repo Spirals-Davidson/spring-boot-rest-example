@@ -55,6 +55,7 @@ pipeline {
 					def fileDataJson = esQuery.csv2jsonString(csvLine)
 					sh 'echo convertion reussit'
 					
+					
 					println("Le fichier: \n"+fileDataJson)
 				
 					//sh "curl --header \"content-type: application/JSON\" -XPUT \"http://elasticsearch.app.projet-davidson.fr/powerapi/power/5\" -d ${fileDataJson}"
