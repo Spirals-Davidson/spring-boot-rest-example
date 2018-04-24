@@ -38,26 +38,10 @@ pipeline {
 					sh "((powerapi duration 5 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) | grep muid) > data.csv"
 					
 					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)			
-					println(csvLine)
-					esQuery.sendCSV2ES('http://elasticsearch.app.projet-davidson.fr/powerapi/power', 'POST', csvLine)		
-					//esQuery.sendCSV2ES('http://elasticsearch.app.projet-davidson.fr/powerapi/power', 'POST', "muid=test;timestamp=1524489876920;targets=10991;devices=cpu;power=4900.0 mW" +
-       // "muid=test;timestamp=1524489876920;targets=10991;devices=cpu;power=4900.0 mWmuid=72e9d91f-0b77-4d48-a75c-beeef833a663;timestamp=1524489876920;targets=10991;devices=cpu;power=4900.0 mW")		
-						
+					esQuery.sendCSV2ES('http://elasticsearch.app.projet-davidson.fr/powerapi/power', 'POST', csvLine)					
 				}
 			}					
 		}
-		//logstash -f fichierconf.conf
-		
-		
-		//stage('test groovy'){
-			//agent { label 'powerapi' }
-			//steps {
-				//script {
-					//def testS = new TestScript()
-					//testS.fonction()
-				//}
-			//}	
-		//}	
 		/*
 		// stage('Sonar') {
 			// agent { label 'master' }
