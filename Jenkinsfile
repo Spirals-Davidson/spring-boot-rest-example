@@ -1,4 +1,4 @@
-@Library('JenkisFile-PowerAPICI') _
+@Library('JenkisFile-PowerAPICI') import com.powerapi.ESQuery
 
 pipeline {
 
