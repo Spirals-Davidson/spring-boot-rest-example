@@ -39,7 +39,7 @@ pipeline {
 					
 					
 					/* TEST */
-					sh "cat data.csv"
+					sh "cat data.csv" 
 					
 					
 					def csvLine = sh (script: "cat data.csv",returnStdout: true)
