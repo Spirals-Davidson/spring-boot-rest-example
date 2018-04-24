@@ -1,4 +1,4 @@
-@Library('JenkisFile-PowerAPICI') import com.powerapi
+@Library('JenkisFile-PowerAPICI') _
 
 pipeline {
 
