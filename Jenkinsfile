@@ -37,21 +37,10 @@ pipeline {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					sh "((powerapi duration 2 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) | grep muid) > data.csv"
 					
-					
-					/* TEST 
-						sh "echo import file.."
-						def fileDataCSV = new File("data.csv") 
-						sh "echo import file OK"
-					*/				
-					
-					def csvLine = sh (script: "cat data.csv | tr '\n' ' '",returnStdout: true)					
+					def csvLine = sh (script: "cat data.csv", returnStdout: true)					
 					println(csvLine)
-					def fileDataJson = esQuery.csv2jsonString(csvLine)
-					 
-					println("Le fichier: \n"+fileDataJson)
-					sh "curl --header \\'content-type: application/JSON\\' -XPUT \\'http://elasticsearch.app.projet-davidson.fr/powerapi/power/testing\\' -d \\'${fileDataJson}\\'"
-					 
-					//sh "curl --header \"content-type: application/JSON\" -XPUT \"http://elasticsearch.app.projet-davidson.fr/powerapi/power/5\" -d@${fileDataJson}"
+					esQuery.sendCSV2ES("http://elasticsearch.app.projet-davidson.fr/powerapi/power/testing", csvLine)
+										 
 				}
 			}					
 		}
