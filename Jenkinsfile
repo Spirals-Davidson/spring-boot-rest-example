@@ -35,8 +35,8 @@ pipeline {
 				script {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					sh "(powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) > data.csv"
-					def fileDataJson = new ESQuery().csv2jsonFile('data.csv')
-					sh "curl --header \"content-type: application/JSON\" -XPUT \"http://elasticsearch.app.projet-davidson.fr/powerapi/power/5\" -d@${fileDataJson}"
+					//def fileDataJson = new ESQuery().csv2jsonFile('data.csv')
+					//sh "curl --header \"content-type: application/JSON\" -XPUT \"http://elasticsearch.app.projet-davidson.fr/powerapi/power/5\" -d@${fileDataJson}"
 				}
 			}					
 		}
