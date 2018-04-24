@@ -15,7 +15,7 @@ pipeline {
 		}
 	
 		stage('Build') {
-			agent { label 'powerapi' }
+			agent { label 'master' }
 			steps {
 				sh 'mvn clean install -Dmaven.test.skip=true'
             }
