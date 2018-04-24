@@ -37,10 +37,9 @@ pipeline {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					sh "((powerapi duration 5 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) | grep muid) > data.csv"
 					
-					def csvLine = sh (script: "cat data.csv", returnStdout: true)					
+					def csvLine = sh (script: "cat data.csv", returnStdout: true)			
 					println(csvLine)
-					esQuery.sendCSV2ES('http://elasticsearch.app.projet-davidson.fr/powerapi/power/testing', 'PUT', csvLine)
-										 
+					esQuery.sendCSV2ES('http://elasticsearch.app.projet-davidson.fr/powerapi/power', 'POST', csvLine)			 
 				}
 			}					
 		}
