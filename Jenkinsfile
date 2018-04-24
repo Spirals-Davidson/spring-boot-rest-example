@@ -35,17 +35,16 @@ pipeline {
 				script {
 					def esQuery = new ESQuery()
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
-					sh "((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) | grep muid) > data.csv"
+					sh "((powerapi duration 2 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) | grep muid) > data.csv"
 					
 					
 					/* TEST 
 						sh "echo import file.."
 						def fileDataCSV = new File("data.csv") 
 						sh "echo import file OK"
-					
 					*/				
 					
-					def csvLine = sh (script: "cat data.csv | tr '\n' ''",returnStdout: true)					
+					def csvLine = sh (script: "cat data.csv",returnStdout: true)					
 					println(csvLine)
 					def fileDataJson = esQuery.csv2jsonString(csvLine)
 					 
