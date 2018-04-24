@@ -39,14 +39,11 @@ pipeline {
 					
 					
 					/* TEST 
-					
 						sh "echo import file.."
 						def fileDataCSV = new File("data.csv") 
 						sh "echo import file OK"
 					
-					*/
-					sh "cat data.csv"
-					
+					*/				
 					
 					def csvLine = sh (script: "cat data.csv",returnStdout: true)
 					println("CSVLine: "+csvLine)
