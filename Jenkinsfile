@@ -45,7 +45,7 @@ pipeline {
 					
 					*/				
 					
-					def csvLine = sh (script: "cat data.csv | tr '\n' ' '",returnStdout: true)					
+					def csvLine = sh (script: "cat data.csv | tr '\n' ''",returnStdout: true)					
 					println(csvLine)
 					def fileDataJson = esQuery.csv2jsonString(csvLine)
 					 
