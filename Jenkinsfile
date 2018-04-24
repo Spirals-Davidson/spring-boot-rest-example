@@ -36,8 +36,10 @@ pipeline {
 					def esQuery = new ESQuery()
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					sh "(powerapi duration 40 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) > data.csv"
+					sh 'echo convertion cvs to json'
 					def fileDataJson = esQuery.csv2jsonFile('data.csv')
-					//println("Le fichier: "+fileDataJson)
+					sh 'echo convertion reussit'
+					println("Le fichier: "+fileDataJson)
 					//sh "curl --header \"content-type: application/JSON\" -XPUT \"http://elasticsearch.app.projet-davidson.fr/powerapi/power/5\" -d@${fileDataJson}"
 				}
 			}					
