@@ -39,6 +39,7 @@ pipeline {
 					
 					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)			
 					esQuery.sendCSV2ES('http://elasticsearch.app.projet-davidson.fr/powerapi/power', 'POST', csvLine)					
+				
 				}
 			}					
 		}
