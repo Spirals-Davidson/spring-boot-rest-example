@@ -40,10 +40,8 @@ pipeline {
 					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)	
 					esQuery.sendPowerapiCSV2ES(csvLine)
 */
-					sh "cat test.csv"
-                    def csvTest = sh (script: "cat test.csv | grep 'timestamp=' | tr '\n' ' '", returnStdout: true)
-                    println(csvTest)
-                    //esQuery.sendTestaouCSV2ES(csvTest)
+					def csvTest = sh (script: "cat test.csv | grep 'timestamp='", returnStdout: true)
+                    esQuery.sendTestCSV2ES(csvTest)
 				}
 			}					
 		}
