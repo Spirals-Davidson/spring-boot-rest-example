@@ -38,7 +38,7 @@ pipeline {
 					sh "((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) | grep muid) > data.csv"
 					
 					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)			
-					esQuery.sendPowerapiCSV2ES(csvLine) 			
+					esQuery.sendPowerapiCSV2ES(csvLine)			
 				}
 			}					
 		}
