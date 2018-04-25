@@ -37,8 +37,12 @@ pipeline {
 					def output = sh (script: 'mvn test & echo $!',returnStdout: true)
 					sh "((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 1000 --console --pids ${output}) | grep muid) > data.csv"
 					
-					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)			
-					esQuery.sendPowerapiCSV2ES(csvLine)	
+					sh "echo transcripte data"
+					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)	
+					sh "echo end transcripte data"					
+					sh "echo send data"
+					esQuery.sendPowerapiCSV2ES(csvLine)		
+					sh "echo end send data"
 				}
 			}					
 		}
