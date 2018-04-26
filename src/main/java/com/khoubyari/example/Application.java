@@ -14,8 +14,14 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    public static long fibonacci(int n, long a, long b) {
-        return (n > 0) ? fibonacci(n - 1, b, a + b) : a;
+    public static long fibonacci(int k) {
+        long c = 1,p = 0, n;
+        for(int i=1; i<k; i++){
+            n = p + c;
+            p = c;
+            c = n;
+        }
+        return c;
     }
 
 }
