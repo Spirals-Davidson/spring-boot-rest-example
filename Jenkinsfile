@@ -32,7 +32,7 @@ pipeline {
 					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)	
 					esQuery.sendPowerapiCSV2ES(csvLine)
 */
-
+					sh "cat test.csv"
 					def csvTest = sh (script: "cat test.csv | grep timestamp=", returnStdout: true)
 					println(csvTest)
                     esQuery.sendTestCSV2ES(csvTest)
