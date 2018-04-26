@@ -148,7 +148,7 @@ public class HotelControllerTest {
         assertEquals(updateHotel, returnedHotel);
         System.out.println("timestamp="+getTimestamp()+";testname=update_existing_hotel;startorend=end");
     }
-
+/*
     @Test(expected = NestedServletException.class)
     public void should_fail_updating_if_hotel_not_exist() throws Exception {
         System.out.println("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=start");
@@ -167,7 +167,7 @@ public class HotelControllerTest {
                 .andReturn();
         System.out.println("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=end");
     }
-
+*/
     @Test
     public void should_delete_existing_hotel() throws Exception {
         System.out.println("timestamp="+getTimestamp()+";testname=fail_delete_existing_hotel;startorend=start");
