@@ -20,14 +20,6 @@ pipeline {
 				sh 'mvn clean install -Dmaven.test.skip=true'
             }
 		}
-	
-		// stage('Test with mvn test and powerapi') {
-			// agent { label 'powerapi' }
-			// steps {
-				// sh '(mvn test & powerapi modules procfs-cpu-simple monitor --frequency 1000 --pids \$! --console duration 40) ' 
-				// /* | grep \"muid\" */
-			// }
-		// }
 
 		stage('Test only powerapi') {
 			agent { label 'powerapi' }
