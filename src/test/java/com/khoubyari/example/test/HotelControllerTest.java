@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -22,11 +24,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.util.NestedServletException;
 
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -37,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class HotelControllerTest {
 
+    Logger log = LoggerFactory.getLogger(this.getClass());
     private static final String BASE_ROUTE = "/example/v1/hotels/";
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -89,7 +90,7 @@ public class HotelControllerTest {
 
     @Test
     public void should_create_hotel() throws Exception {
-        System.out.println("timestamp="+getTimestamp()+";testname=createhotel;startorend=start");
+        log.info("timestamp="+getTimestamp()+";testname=createhotel;startorend=start");
         Hotel hotelCreate = new Hotel();
         hotelCreate.setName("Create");
         hotelCreate.setRating(4);
@@ -110,24 +111,24 @@ public class HotelControllerTest {
         hotelCreate.setId(returnedHotel.getId());
 
         assertEquals(hotelCreate, returnedHotel);
-        System.out.println("timestamp="+getTimestamp()+";testname=createhotel;startorend=end");
+        log.info("timestamp="+getTimestamp()+";testname=createhotel;startorend=end");
     }
 
     @Test
     public void should_find_existing_hotel() throws Exception {
-        System.out.println("timestamp="+getTimestamp()+";testname=find_existing_hotel;startorend=start");
+        log.info("timestamp="+getTimestamp()+";testname=find_existing_hotel;startorend=start");
         final MockHttpServletRequestBuilder req = get(BASE_ROUTE + this.hotel.getId());
         final MvcResult result = this.mockMvc.perform(req).andExpect(status().isOk()).andReturn();
 
         final byte[] jsonArray = result.getResponse().getContentAsByteArray();
         final Hotel returnedHotel = OBJECT_MAPPER.readerFor(Hotel.class).readValue(jsonArray);
         assertEquals(this.hotel, returnedHotel);
-        System.out.println("timestamp="+getTimestamp()+";testname=find_existing_hotel;startorend=end");
+        log.info("timestamp="+getTimestamp()+";testname=find_existing_hotel;startorend=end");
     }
 
     @Test
     public void should_update_existing_hotel() throws Exception {
-        System.out.println("timestamp="+getTimestamp()+";testname=update_existing_hotel;startorend=start");
+        log.info("timestamp="+getTimestamp()+";testname=update_existing_hotel;startorend=start");
         final Hotel updateHotel = new Hotel();
         updateHotel.setDescription("MAJ Desc");
         updateHotel.setCity(hotel.getCity());
@@ -146,12 +147,12 @@ public class HotelControllerTest {
         final Hotel returnedHotel = OBJECT_MAPPER.readerFor(Hotel.class).readValue(jsonArray);
 
         assertEquals(updateHotel, returnedHotel);
-        System.out.println("timestamp="+getTimestamp()+";testname=update_existing_hotel;startorend=end");
+        log.info("timestamp="+getTimestamp()+";testname=update_existing_hotel;startorend=end");
     }
 /*
     @Test(expected = NestedServletException.class)
     public void should_fail_updating_if_hotel_not_exist() throws Exception {
-        System.out.println("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=start");
+        log.info();("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=start");
         final Hotel updateHotel = new Hotel();
         updateHotel.setDescription("MAJ Desc");
         updateHotel.setCity(hotel.getCity());
@@ -165,31 +166,31 @@ public class HotelControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andReturn();
-        System.out.println("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=end");
+        log.info();("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=end");
     }
 */
     @Test
     public void should_delete_existing_hotel() throws Exception {
-        System.out.println("timestamp="+getTimestamp()+";testname=fail_delete_existing_hotel;startorend=start");
+        log.info("timestamp="+getTimestamp()+";testname=fail_delete_existing_hotel;startorend=start");
         final MockHttpServletRequestBuilder req = delete(BASE_ROUTE + this.hotel.getId());
         this.mockMvc.perform(req).andExpect(status().isOk());
-        System.out.println("timestamp="+getTimestamp()+";testname=fail_delete_existing_hotel;startorend=end");
+        log.info("timestamp="+getTimestamp()+";testname=fail_delete_existing_hotel;startorend=end");
     }
 
     @Test
     public void should_return_all_paginated_hotel() throws Exception {
-        System.out.println("timestamp="+getTimestamp()+";testname=all_paginated_hotel;startorend=start");
+        log.info("timestamp="+getTimestamp()+";testname=all_paginated_hotel;startorend=start");
         final MvcResult result = this.mockMvc.perform(get(BASE_ROUTE)).andExpect(status().isOk()).andReturn();
 
         final byte[] jsonArray = result.getResponse().getContentAsByteArray();
         final Page<Hotel> returnedHotels = OBJECT_MAPPER.readerFor(new TypeReference<PageHelper<Hotel>>(){}).readValue(jsonArray);
         assertEquals(2, returnedHotels.getTotalElements());
-        System.out.println("timestamp="+getTimestamp()+";testname=all_paginated_hotel;startorend=end");
+        log.info("timestamp="+getTimestamp()+";testname=all_paginated_hotel;startorend=end");
     }
 
     @Test
     public void should_return_hotel_find_by_city() throws Exception {
-        System.out.println("timestamp="+getTimestamp()+";testname=hotel_find_by_city;startorend=start");
+        log.info("timestamp="+getTimestamp()+";testname=hotel_find_by_city;startorend=start");
         final MvcResult result = this.mockMvc.perform(get(BASE_ROUTE+"/byCity/"+ hotel1.getCity())).andExpect(status().isOk()).andReturn();
 
         final byte[] jsonArray = result.getResponse().getContentAsByteArray();
@@ -199,20 +200,20 @@ public class HotelControllerTest {
         Hotel returnedHotel = new Hotel();
         if(returnedHotels.iterator().hasNext()) returnedHotel = returnedHotels.iterator().next();
         assertEquals(hotel1, returnedHotel);
-        System.out.println("timestamp="+getTimestamp()+";testname=hotel_find_by_city;startorend=end");
+        log.info("timestamp="+getTimestamp()+";testname=hotel_find_by_city;startorend=end");
     }
 
     @Test
     public void should_test_suite_fibonnacci_courte(){
-        System.out.println("timestamp="+getTimestamp()+";testname=fibonnacci_courte;startorend=start");
+        log.info("timestamp="+getTimestamp()+";testname=fibonnacci_courte;startorend=start");
         assertEquals(89, Application.fibonacci(11));
-        System.out.println("timestamp="+getTimestamp()+";testname=fibonnacci_courte;startorend=end");
+        log.info("timestamp="+getTimestamp()+";testname=fibonnacci_courte;startorend=end");
     }
 
     @Test
     public void should_test_suite_fibonnacci_use_puissance(){
-        System.out.println("timestamp="+getTimestamp()+";testname=fibonnacci_puissance;startorend=start");
+        log.info("timestamp="+getTimestamp()+";testname=fibonnacci_puissance;startorend=start");
         assertEquals(Long.parseLong("7810785687120836007"), Application.fibonacci(130));
-        System.out.println("timestamp="+getTimestamp()+";testname=fibonnacci_puissance;startorend=end");
+        log.info("timestamp="+getTimestamp()+";testname=fibonnacci_puissance;startorend=end");
     }
 }
