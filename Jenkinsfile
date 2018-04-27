@@ -27,7 +27,7 @@ pipeline {
 				script {
 					def esQuery = new ESQuery()
 					def output = sh (script: '(mvn test > test.csv) & echo $!',returnStdout: true)
-					sh "((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 100 --console --pids ${output}) | grep muid) > data.csv"
+					sh "((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 200 --console --pids ${output}) | grep muid) > data.csv"
 
 					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)	
 					esQuery.sendPowerapiCSV2ES(csvLine)
