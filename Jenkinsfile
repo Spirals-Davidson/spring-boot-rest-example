@@ -37,7 +37,7 @@ pipeline {
 					/*
 					def csvTest = sh (script: "cat test.csv | grep timestamp=", returnStdout: true)
                     */
-					def csvTest = sh (script: "cat test.csv | grep timestamp | cut -d ':' -f 2", returnStdout: true)
+					def csvTest = sh (script: "cat test.csv | grep timestamp | cut -d ':' -f 3", returnStdout: true)
 					esQuery.sendTestCSV2ES(csvTest)
 				}
 			}					
