@@ -45,14 +45,14 @@ pipeline {
 				}
 			}					
 		}
-		/*
+		
 		stage('Sonar') {
              agent { label 'master' }
              steps {
 				 sh 'mvn sonar:sonar'
 			 }
         }
-        */
+        
 		/*
 		stage ('Deploy to development environment') {
 			stage("front") {
