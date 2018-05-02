@@ -32,7 +32,6 @@ pipeline {
                     sh 'cat data.csv'
 
 					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
-					sh 'echo before sending'
 					esQuery.sendPowerapiCSV2ES(csvLine)
 
 					sh "cat test.csv" 

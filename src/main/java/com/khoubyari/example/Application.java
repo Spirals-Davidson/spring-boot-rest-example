@@ -24,4 +24,12 @@ public class Application {
         return c;
     }
 
+    public static long fibonnaciRecursif(int n){
+            if(n == 0 || n == 1)
+                return n;
+
+            return fibonnaciRecursif(n - 1) + fibonnaciRecursif(n - 2);
+    }
+
+
 }

@@ -206,14 +206,14 @@ public class HotelControllerTest {
     @Test
     public void should_test_suite_fibonnacci_courte(){
         log.info("timestamp="+getTimestamp()+";testname=fibonnacci_courte;startorend=start");
-        assertEquals(89, Application.fibonacci(11));
+        assertEquals(Long.parseLong("7810785687120836007"), Application.fibonacci(130));
         log.info("timestamp="+getTimestamp()+";testname=fibonnacci_courte;startorend=end");
     }
 
     @Test
     public void should_test_suite_fibonnacci_use_puissance(){
         log.info("timestamp="+getTimestamp()+";testname=fibonnacci_puissance;startorend=start");
-        assertEquals(Long.parseLong("7810785687120836007"), Application.fibonacci(130));
+        assertEquals(832040, Application.fibonnaciRecursif(30));
         log.info("timestamp="+getTimestamp()+";testname=fibonnacci_puissance;startorend=end");
     }
 }
