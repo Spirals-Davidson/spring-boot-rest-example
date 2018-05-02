@@ -52,7 +52,7 @@ pipeline {
 				 sh 'mvn sonar:sonar'
 			 }
         }
-        
+		
 		/*
 		stage ('Deploy to development environment') {
 			stage("front") {
