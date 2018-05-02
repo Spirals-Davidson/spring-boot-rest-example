@@ -35,7 +35,7 @@ pipeline {
 					sh 'echo before sending'
 					esQuery.sendPowerapiCSV2ES(csvLine)
 
-					sh "cat test.csv"
+					sh "cat test.csv" 
 
 					def csvTest = sh (script: "cat test.csv | grep timestamp= | cut -d ':' -f 4 | tr -d ' '", returnStdout: true) 
 					esQuery.sendTestCSV2ES(csvTest)
