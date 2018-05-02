@@ -27,7 +27,8 @@ pipeline {
 				script {
 					def esQuery = new ESQuery()
 					def testPid = sh (script: '(mvn -DforkCount=0 test > test.csv) & echo $!',returnStdout: true)
-					def powerPid = sh (script: "(((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${testPid}) | grep muid) > data.csv) & echo $!", returnStdout: true)
+					
+					/*def powerPid = sh (script: "(((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${testPid}) | grep muid) > data.csv) & echo $!", returnStdout: true)
 					
 					sh "wait ${testPid}"
 					sh "kill -SIGTERM ${powerPid}"
@@ -40,7 +41,7 @@ pipeline {
 					sh "cat test.csv" 
 
 					def csvTest = sh (script: "cat test.csv | grep timestamp= | cut -d ':' -f 4 | tr -d ' '", returnStdout: true) 
-					esQuery.sendTestCSV2ES(csvTest)
+					esQuery.sendTestCSV2ES(csvTest)*/
 				}
 			}					
 		}
