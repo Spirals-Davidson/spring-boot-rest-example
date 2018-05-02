@@ -213,7 +213,7 @@ public class HotelControllerTest {
     @Test
     public void should_test_suite_fibonnacci_use_puissance(){
         log.info("timestamp="+getTimestamp()+";testname=fibonnacci_puissance;startorend=start");
-        assertEquals(832040, Application.fibonnaciRecursif(30));
+        assertEquals(9227465, Application.fibonnaciRecursif(35));
         log.info("timestamp="+getTimestamp()+";testname=fibonnacci_puissance;startorend=end");
     }
 }
