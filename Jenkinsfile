@@ -4,6 +4,10 @@ pipeline {
 
     agent none
 	
+	options {
+		buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '30'))
+	}
+	
 	stages {
 			
 		stage('checkout and reset to branch') {
@@ -15,7 +19,7 @@ pipeline {
 		}
 	
 		stage('Build') {
-			agent { label 'powerapi' }
+			agent { label 'master' }
 			steps {
 				sh 'mvn clean install -Dmaven.test.skip=true'
             }
