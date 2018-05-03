@@ -34,14 +34,12 @@ pipeline {
 					sh "((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${output}) | grep muid) > data.csv"
 
                     sh 'cat data.csv'
-
-					def csvLine = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
-					esQuery.sendPowerapiCSV2ES(csvLine)
+					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 
 					sh "cat test.csv"
-
-					def csvTest = sh (script: "cat test.csv | grep timestamp= | cut -d ':' -f 4 | tr -d ' '", returnStdout: true) 
-					esQuery.sendTestCSV2ES(csvTest)
+					def testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d ':' -f 4 | tr -d ' '", returnStdout: true) 
+					
+					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV)
 				}
 			}					
 		}
