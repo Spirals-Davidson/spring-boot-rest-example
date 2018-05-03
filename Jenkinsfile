@@ -37,15 +37,17 @@ pipeline {
 					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 					
 					sh "cat test.csv"
-					def testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d ':' -f 4 | tr -d ' '", returnStdout: true) 
+					def testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d ':' -f 6 | tr -d ' '", returnStdout: true) 
 					
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 
-					def totalAppTime = sh (script: "cat test.csv | grep 'Total time:' | cut -d ':' -f 2 | tr -d ' '", returnStdout: true) 
-					def endAppTime = sh (script: "cat test.csv | grep 'Finished at:' | cut -d ':' -f 2 | tr -d ' '", returnStdout: true) 
+					def totalAppTime = sh (script: "cat test.csv | grep 'Total time:' | cut -d ':' -f 4 | tr -d ' '", returnStdout: true) 
+					def endAppTime = sh (script: "cat test.csv | grep 'Finished at:' | cut -d '[' -f 1", returnStdout: true) 
 					
-				//	sh "echo ${totalAppTime} and ${endAppTime}" 
-					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName)
+					sh "echo ${testCSV}"
+					sh "echo ${totalAppTime}"
+					sh "echo ${endAppTime}"
+					//esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName)
 				}
 			}					
 		}
