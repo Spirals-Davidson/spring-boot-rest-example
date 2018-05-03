@@ -44,7 +44,7 @@ pipeline {
 					def totalAppTime = sh (script: "cat test.csv | grep 'Total time:' | cut -d ':' -f 2 | tr -d ' '", returnStdout: true) 
 					def endAppTime = sh (script: "cat test.csv | grep 'Finished at:' | cut -d ':' -f 2 | tr -d ' '", returnStdout: true) 
 					
-					sh 'echo ${totalAppTime} and ${endAppTime}'
+					sh "echo ${totalAppTime} and ${endAppTime}" 
 					//esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName)
 				}
 			}					
