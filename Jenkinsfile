@@ -39,7 +39,7 @@ pipeline {
 					sh "cat test.csv"
 					def testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d ':' -f 4 | tr -d ' '", returnStdout: true) 
 					
-					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV) 
+					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV)
 				}
 			}					
 		}
