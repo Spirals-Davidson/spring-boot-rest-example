@@ -31,7 +31,7 @@ pipeline {
 				script {
 					def esQuery = new ESQuery()
 					def output = sh (script: '(mvn -DforkCount=0 test > test.csv) & echo $!',returnStdout: true)
-					sh "((powerapi duration 60 modules procfs-cpu-simple monitor --frequency 200 --console --pids ${output}) | grep muid) > data.csv"
+					sh "((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${output}) | grep muid) > data.csv"
 
                     sh 'cat data.csv'
 					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
