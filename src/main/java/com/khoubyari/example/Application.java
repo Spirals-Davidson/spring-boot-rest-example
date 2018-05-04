@@ -24,11 +24,11 @@ public class Application {
         return c;
     }
 
-    public static long fibonnaciRecursif(int n){
+    public static long fibonaciRecursif(int n){
             if(n == 0 || n == 1)
                 return n;
 
-            return fibonnaciRecursif(n - 1) + fibonnaciRecursif(n - 2);
+            return fibonaciRecursif(n - 1) + fibonaciRecursif(n - 2);
     }
 
 
