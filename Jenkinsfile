@@ -35,9 +35,10 @@ pipeline {
 					
 					def pidPowerapi = sh (script: 'cat pidPowerapi.txt', returnStdout: true)
 					
+					/*
 					sh "wait ${output}"
 					sh "kill -9 ${pidPowerapi}"
-					
+					*/
                     sh 'cat data.csv'
 					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 					
