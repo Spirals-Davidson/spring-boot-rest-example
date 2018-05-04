@@ -30,7 +30,7 @@ pipeline {
 			steps {
 				script {
 					def esQuery = new ESQuery()
-					def output = sh (script: '(mvn -DforkCount=0 test > test.csv) & echo $!',returnStdout: true)
+					def output = sh (script: "(mvn -DforkCount=0 test > test.csv) & echo $!",returnStdout: true)
 					//def pidPowerapi = sh (script: "(((powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${output}) | grep muid) > data.csv) & echo $!",returnStdout: true)
 					/*
 					sh "wait ${output}"
