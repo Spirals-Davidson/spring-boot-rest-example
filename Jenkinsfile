@@ -36,7 +36,6 @@ pipeline {
 					
 					def pidPowerapi = sh (script: 'echo $!', returnStdout: true)
 					
-					
 					sh "wait ${output}"
 					sh "kill -9 ${pidPowerapi}"
 					
