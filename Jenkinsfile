@@ -1,14 +1,5 @@
 @Library('JenkisFile-PowerAPICI') import com.powerapi.*
 
-
-def processXml( String xml, String xpathQuery ) {
-  def xpath = XPathFactory.newInstance().newXPath()
-  def builder     = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-  def inputStream = new ByteArrayInputStream( xml.bytes )
-  def records     = builder.parse(inputStream).documentElement
-  xpath.evaluate( xpathQuery, records)
-}
-
 pipeline {
 
     agent none
@@ -53,9 +44,8 @@ pipeline {
 					//def appName = sh (script: "cat target/surefire-reports/TEST-*  | grep testsuite | cut -d '\"' -f 2 | head -1", returnStdout: true) 
 					
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
-					def appName = processXml(appNameXML, "//@name")
 					
-					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appName)
+					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appNameXML)
 				}
 			}					
 		}
