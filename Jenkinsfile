@@ -42,8 +42,7 @@ pipeline {
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 
 					def appName = sh (script: "cat target/surefire-reports/TEST-*  | grep testsuite | cut -d '\"' -f 2 | head -1", returnStdout: true) 
-
-					 
+					
 					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appName)
 				}
 			}					
@@ -52,7 +51,7 @@ pipeline {
 		stage('Sonar') {
              agent { label 'master' }
              steps {
-				 sh 'mvn sonar:sonar'
+				 sh 'mvn sonar:sonar' 
 			 }
         }
 		
