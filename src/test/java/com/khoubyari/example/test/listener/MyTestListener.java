@@ -28,12 +28,12 @@ public class MyTestListener extends RunListener {
 
     @Override
     public void testStarted(Description description) {
-        log.info("timestamp="+getTimestamp()+";testname="+description.getMethodName());
+        log.info("timestamp="+getTimestamp()+";testname="+description.getMethodName()+";startorend=start");
     }
 
     @Override
     public void testFinished(Description description) {
-        log.info("timestamp="+getTimestamp()+";testname="+description.getMethodName());
+        log.info("timestamp="+getTimestamp()+";testname="+description.getMethodName()+";startorend=end");
     }
 
     @Override
