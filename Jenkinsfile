@@ -28,7 +28,7 @@ pipeline {
 		stage('Test only powerapi') {
 			agent { label 'powerapi' }
 			steps {
-				script {
+				script { 
 					def esQuery = new ESQuery()
 					def output = sh (script: '(mvn test -DforkCount=0 > test.csv) & echo $!',returnStdout: true)
 					
