@@ -6,9 +6,8 @@ import com.khoubyari.example.Application;
 import com.khoubyari.example.entity.Hotel;
 import com.khoubyari.example.test.helper.PageHelper;
 import com.khoubyari.example.repository.HotelRepository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.khoubyari.example.test.listener.MyTestRunner;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
@@ -18,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.TestContextManager;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -32,12 +31,10 @@ import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(MyTestRunner.class)
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("test")
 public class HotelControllerTest {
-
-    Logger log = LoggerFactory.getLogger(this.getClass());
     private static final String BASE_ROUTE = "/example/v1/hotels/";
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -54,15 +51,18 @@ public class HotelControllerTest {
     private Hotel hotel1;
 
 
-    private byte[] toJson(Object r) throws Exception {
+    private static byte[] toJson(Object r) throws Exception {
         return OBJECT_MAPPER.writeValueAsString(r).getBytes();
     }
 
-    private long getTimestamp(){
-        return new Timestamp(System.currentTimeMillis()).getTime();
-    }
+    private TestContextManager testContextManager;
+
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        //Init spring boot
+        this.testContextManager = new TestContextManager(getClass());
+        this.testContextManager.prepareTestInstance(this);
+
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
@@ -90,7 +90,6 @@ public class HotelControllerTest {
 
     @Test
     public void should_create_hotel() throws Exception {
-        log.info("timestamp="+getTimestamp()+";testname=createhotel;startorend=start");
         Hotel hotelCreate = new Hotel();
         hotelCreate.setName("Create");
         hotelCreate.setRating(4);
@@ -111,24 +110,20 @@ public class HotelControllerTest {
         hotelCreate.setId(returnedHotel.getId());
 
         assertEquals(hotelCreate, returnedHotel);
-        log.info("timestamp="+getTimestamp()+";testname=createhotel;startorend=end");
     }
 
     @Test
     public void should_find_existing_hotel() throws Exception {
-        log.info("timestamp="+getTimestamp()+";testname=find_existing_hotel;startorend=start");
         final MockHttpServletRequestBuilder req = get(BASE_ROUTE + this.hotel.getId());
         final MvcResult result = this.mockMvc.perform(req).andExpect(status().isOk()).andReturn();
 
         final byte[] jsonArray = result.getResponse().getContentAsByteArray();
         final Hotel returnedHotel = OBJECT_MAPPER.readerFor(Hotel.class).readValue(jsonArray);
         assertEquals(this.hotel, returnedHotel);
-        log.info("timestamp="+getTimestamp()+";testname=find_existing_hotel;startorend=end");
     }
 
     @Test
     public void should_update_existing_hotel() throws Exception {
-        log.info("timestamp="+getTimestamp()+";testname=update_existing_hotel;startorend=start");
         final Hotel updateHotel = new Hotel();
         updateHotel.setDescription("MAJ Desc");
         updateHotel.setCity(hotel.getCity());
@@ -147,73 +142,66 @@ public class HotelControllerTest {
         final Hotel returnedHotel = OBJECT_MAPPER.readerFor(Hotel.class).readValue(jsonArray);
 
         assertEquals(updateHotel, returnedHotel);
-        log.info("timestamp="+getTimestamp()+";testname=update_existing_hotel;startorend=end");
     }
-/*
-    @Test(expected = NestedServletException.class)
-    public void should_fail_updating_if_hotel_not_exist() throws Exception {
-        log.info();("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=start");
-        final Hotel updateHotel = new Hotel();
-        updateHotel.setDescription("MAJ Desc");
-        updateHotel.setCity(hotel.getCity());
-        updateHotel.setRating(hotel.getRating());
-        updateHotel.setName(hotel.getName());
-        updateHotel.setId(hotel.getId());
 
-        mockMvc.perform(put(BASE_ROUTE + -1)
-                .content(toJson(updateHotel))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andReturn();
-        log.info();("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=end");
-    }
-*/
+    /*
+        @Test(expected = NestedServletException.class)
+        public void should_fail_updating_if_hotel_not_exist() throws Exception {
+            log.info();("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=start");
+            final Hotel updateHotel = new Hotel();
+            updateHotel.setDescription("MAJ Desc");
+            updateHotel.setCity(hotel.getCity());
+            updateHotel.setRating(hotel.getRating());
+            updateHotel.setName(hotel.getName());
+            updateHotel.setId(hotel.getId());
+
+            mockMvc.perform(put(BASE_ROUTE + -1)
+                    .content(toJson(updateHotel))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound())
+                    .andReturn();
+            log.info();("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=end");
+        }
+    */
     @Test
     public void should_delete_existing_hotel() throws Exception {
-        log.info("timestamp="+getTimestamp()+";testname=fail_delete_existing_hotel;startorend=start");
         final MockHttpServletRequestBuilder req = delete(BASE_ROUTE + this.hotel.getId());
         this.mockMvc.perform(req).andExpect(status().isOk());
-        log.info("timestamp="+getTimestamp()+";testname=fail_delete_existing_hotel;startorend=end");
     }
 
     @Test
     public void should_return_all_paginated_hotel() throws Exception {
-        log.info("timestamp="+getTimestamp()+";testname=all_paginated_hotel;startorend=start");
         final MvcResult result = this.mockMvc.perform(get(BASE_ROUTE)).andExpect(status().isOk()).andReturn();
 
         final byte[] jsonArray = result.getResponse().getContentAsByteArray();
-        final Page<Hotel> returnedHotels = OBJECT_MAPPER.readerFor(new TypeReference<PageHelper<Hotel>>(){}).readValue(jsonArray);
+        final Page<Hotel> returnedHotels = OBJECT_MAPPER.readerFor(new TypeReference<PageHelper<Hotel>>() {
+        }).readValue(jsonArray);
         assertEquals(2, returnedHotels.getTotalElements());
-        log.info("timestamp="+getTimestamp()+";testname=all_paginated_hotel;startorend=end");
     }
 
     @Test
     public void should_return_hotel_find_by_city() throws Exception {
-        log.info("timestamp="+getTimestamp()+";testname=hotel_find_by_city;startorend=start");
-        final MvcResult result = this.mockMvc.perform(get(BASE_ROUTE+"/byCity/"+ hotel1.getCity())).andExpect(status().isOk()).andReturn();
+        final MvcResult result = this.mockMvc.perform(get(BASE_ROUTE + "/byCity/" + hotel1.getCity())).andExpect(status().isOk()).andReturn();
 
         final byte[] jsonArray = result.getResponse().getContentAsByteArray();
-        final Page<Hotel> returnedHotels = OBJECT_MAPPER.readerFor(new TypeReference<PageHelper<Hotel>>(){}).readValue(jsonArray);
+        final Page<Hotel> returnedHotels = OBJECT_MAPPER.readerFor(new TypeReference<PageHelper<Hotel>>() {
+        }).readValue(jsonArray);
         assertEquals(1, returnedHotels.getTotalElements());
 
         Hotel returnedHotel = new Hotel();
-        if(returnedHotels.iterator().hasNext()) returnedHotel = returnedHotels.iterator().next();
+        if (returnedHotels.iterator().hasNext()) returnedHotel = returnedHotels.iterator().next();
         assertEquals(hotel1, returnedHotel);
-        log.info("timestamp="+getTimestamp()+";testname=hotel_find_by_city;startorend=end");
     }
 
     @Test
-    public void should_test_suite_fibonacci_courte(){
-        log.info("timestamp="+getTimestamp()+";testname=fibonacci_courte;startorend=start");
+    public void should_test_suite_fibonacci_courte() {
         assertEquals(Long.parseLong("7810785687120836007"), Application.fibonacci(130));
-        log.info("timestamp="+getTimestamp()+";testname=fibonacci_courte;startorend=end");
     }
 
     @Test
-    public void should_test_suite_fibonacci_use_puissance(){
-        log.info("timestamp="+getTimestamp()+";testname=fibonacci_puissance;startorend=start");
-        assertEquals(102334155 , Application.fibonaciRecursif(40));
-        log.info("timestamp="+getTimestamp()+";testname=fibonacci_puissance;startorend=end");
+    public void should_test_suite_fibonacci_use_puissance() {
+        assertEquals(102334155, Application.fibonaciRecursif(40));
     }
+
 }
