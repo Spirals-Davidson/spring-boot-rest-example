@@ -30,8 +30,11 @@ pipeline {
 			steps {
 				script {
 					def esQuery = new ESQuery()
+					sh "mvn test -DforkCount=0 > test.csv) &\n"+
+					   "echo $!"
+					/*
 					def output = sh (script: '(mvn test -DforkCount=0 > test.csv) & echo $!',returnStdout: true)
-					
+
 					def powerapiPID = sh (script: "(((powerapi duration 20 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${output}) | grep muid) > data.csv) & echo \$!", returnStdout: true)
 
                     sh "echo debut wait"
@@ -53,6 +56,7 @@ pipeline {
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
 
 					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appNameXML)
+				    */
 				}
 			}					
 		}
