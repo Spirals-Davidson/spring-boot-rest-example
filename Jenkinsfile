@@ -38,9 +38,8 @@ pipeline {
 					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 					
 					sh "cat test.csv"
-					sh "cat test.csv | grep timestamp= | cut -d ':' -f 4 | tr -d ' '"
 					
-					def testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d ':' -f 4 | tr -d ' '", returnStdout: true) 
+					def testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d '-' -f 2 | tr -d ' '", returnStdout: true)
 					
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 					
