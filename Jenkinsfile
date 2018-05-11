@@ -34,8 +34,9 @@ pipeline {
 					
 					def powerapiPID = sh (script: "(((powerapi duration 20 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${output}) | grep muid) > data.csv) & echo \$!", returnStdout: true)
 
-					sh "echo ${powerapiPID}"
-					/*
+					sh "wait ${output}"
+					sh "kill -9 ${powerapiPID}"
+
                     sh 'cat data.csv'
 					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 					
@@ -46,8 +47,8 @@ pipeline {
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 					
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
-					*/
-					//esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appNameXML)
+
+					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appNameXML)
 				}
 			}					
 		}
