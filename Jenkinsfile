@@ -32,8 +32,10 @@ pipeline {
 					def esQuery = new ESQuery()
 					def output = sh (script: '(mvn test -DforkCount=0 > test.csv) & echo $!',returnStdout: true)
 					
-					sh "(((powerapi duration 20 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${output}) | grep muid) > data.csv)"
-					
+					sh "(((powerapi duration 20 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${output}) | grep muid) > data.csv) & echo $! > pidPowerapi.txt"
+
+					sh "cat pidPowerapi.txt"
+					/*
                     sh 'cat data.csv'
 					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 					
@@ -44,8 +46,8 @@ pipeline {
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 					
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
-					
-					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appNameXML) 
+					*/
+					//esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appNameXML)
 				}
 			}					
 		}
