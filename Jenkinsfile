@@ -30,7 +30,7 @@ pipeline {
 			steps {
 				script {
 					def esQuery = new ESQuery()
-					sh "mvn test -DforkCount=0 > test.csv &\n echo $!"
+					sh "mvn test -DforkCount=0 > test.csv & echo \$!"
 
 					/*
 					def output = sh (script: '(mvn test -DforkCount=0 > test.csv) & echo $!',returnStdout: true)
