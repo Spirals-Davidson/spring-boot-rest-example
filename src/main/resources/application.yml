@@ -51,7 +51,15 @@ hotel.service:
   name: 'test profile:'
   
 logging:
+  level:
+    org.springframework.web: ERROR
+    org.hibernate: INFO
+    com.mkyong: DEBUG
+  pattern:
+      console: "%d{HH:mm:ss.S} [%thread] %-5level%logger{100} - %msg%n"
+      file: "%d{HH:mm:ss.S} [%thread] %-5level %logger{100}- %msg%n"
   file: boot_example.log
-  org.hibernate: INFO
+
+#org.hibernate: INFO
 
  
