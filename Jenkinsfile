@@ -34,14 +34,13 @@ pipeline {
 					
 					def powerapiPID = sh (script: "(((powerapi duration 20 modules procfs-cpu-simple monitor --frequency 50 --console --pids ${output}) | grep muid) > data.csv) & echo \$!", returnStdout: true)
 
+                    sh "echo debut wait"
 					sh "wait ${output}"
-
 					sh "echo finWait"
 
 					sh "kill -9 ${powerapiPID}"
-
                     sh "echo finkill"
-                    
+
                     sh 'cat data.csv'
 					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 					
