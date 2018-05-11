@@ -34,7 +34,7 @@ pipeline {
 					   "testPID=\$(echo \$!)\n"+
 					   "powerapi modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID &\n"+
 					   "powerapiPID=\$(echo \$!)\n"+
-					   "wait \$(testPID)\n"+
+					   "wait \$testPID\n"+
 					   "kill -9 \$powerapiPID"
 
                     sh "echo ok"
