@@ -9,6 +9,9 @@ import com.khoubyari.example.repository.HotelRepository;
 import com.khoubyari.example.test.listener.MyTestRunner;
 import org.junit.*;
 import org.junit.runner.RunWith;
+import org.junit.runner.notification.RunListener;
+import org.junit.runner.notification.RunNotifier;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestContextManager;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -55,13 +59,12 @@ public class HotelControllerTest {
         return OBJECT_MAPPER.writeValueAsString(r).getBytes();
     }
 
-    private TestContextManager testContextManager;
 
     @Before
     public void setUp() throws Exception {
-        //Init spring boot
-        this.testContextManager = new TestContextManager(getClass());
-        this.testContextManager.prepareTestInstance(this);
+        TestContextManager testContextManager;
+        testContextManager = new TestContextManager(getClass());
+        testContextManager.prepareTestInstance(this);
 
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -199,10 +202,9 @@ public class HotelControllerTest {
         assertEquals(Long.parseLong("7810785687120836007"), Application.fibonacci(130));
     }
 
-    /*
     @Test
     public void should_test_suite_fibonacci_use_puissance() {
         assertEquals(102334155, Application.fibonaciRecursif(40));
     }
-*/
+
 }
