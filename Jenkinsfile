@@ -31,7 +31,13 @@ pipeline {
 				script {
 					def esQuery = new ESQuery()
 					sh "mvn test -DforkCount=0 > test.csv &\n"+
-					   "echo \$!"
+					   "testPID=\$(echo \$!)\n"+
+					   "powerapi modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID &\n"+
+					   "powerapiPID=\$(echo \$!)\n"+
+					   "wait \$(testPID)\n"+
+					   "kill -9 \$powerapiPID"
+
+                    sh "echo ok"
 
 					/*
 					def output = sh (script: '(mvn test -DforkCount=0 > test.csv) & echo $!',returnStdout: true)
