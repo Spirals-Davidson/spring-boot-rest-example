@@ -32,7 +32,7 @@ pipeline {
 					def esQuery = new ESQuery()
 					sh "mvn test -DforkCount=0 > test.csv &\n"+
 					   "testPID=\$(echo \$!)\n"+
-					   "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv"
+					   "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n" 
 					   //"powerapiPID=\$(echo \$!)\n"+
 					   //"wait \$testPID\n"+
 					   //"kill -9 \$powerapiPID"
@@ -46,7 +46,7 @@ pipeline {
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 					
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
-
+			
 					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appNameXML)
 
 				}
