@@ -33,9 +33,10 @@ pipeline {
 					sh "mvn test -DforkCount=0 > test.csv &\n"+
 					   "testPID=\$(echo \$!)\n"+
 					   "powerapi duration 40 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n" 
-					   //"powerapiPID=\$(echo \$!)\n"+
-					   //"wait \$testPID\n"+
-					   //"kill -9 \$powerapiPID"
+					   "powerapiPID=\$(echo \$!)\n"+
+					   "wait \$testPID\n"+
+					   "sleep 0.100\n"+
+					   "kill -9 \$powerapiPID"
 
                     sh 'cat data.csv'
 					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
