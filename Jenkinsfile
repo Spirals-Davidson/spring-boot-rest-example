@@ -36,7 +36,7 @@ pipeline {
 					   "powerapiPID=\$(echo \$!)"
 					   //"wait \$testPID\n"+
 					   //"sleep 0.100\n"+
-					   //"kill -9 \$powerapiPID" 
+					   //"kill -9 \$powerapiPID"
 
                     sh 'cat data.csv'
 					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
