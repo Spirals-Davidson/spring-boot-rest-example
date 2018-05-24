@@ -47,8 +47,8 @@ pipeline {
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 					
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
-			
-					esQuery.sendPowerapiAndTestCSV(powerapiCSV, testCSV, commitName, appNameXML)
+					
+					esQuery.sendPowerapiciData(1322l, "name_branch", "build_name", commitName, appNameXML, powerapiCSV, testCSV)
 
 				}
 			}					
