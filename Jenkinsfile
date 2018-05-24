@@ -29,7 +29,7 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					def debutMVN = sh (script: "date +'%s'", returnStdout: true)
+					def debutMVN = sh (script: "date +'%s' | tr -d '\n' ", returnStdout: true)
 					List<String> powerapiCSVList = new ArrayList<>()
 					List<String> testCSVList	 = new ArrayList<>()
 					for(int i=0; i<3; i++){
