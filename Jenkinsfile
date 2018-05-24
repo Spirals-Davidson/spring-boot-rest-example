@@ -39,12 +39,10 @@ pipeline {
 						   //"wait \$testPID\n"+
 						   //"sleep 0.100\n"+
 						   //"kill -9 \$powerapiPID"
-
-						sh 'cat data.csv'
+						   
 						String powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 						powerapiCSVList.add(powerapiCSV)
 					
-						sh "cat test.csv"
 						String testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d '-' -f 2 | tr -d ' '", returnStdout: true)
 						testCSVList.add(testCSV)
 					}					
@@ -54,7 +52,6 @@ pipeline {
 					
 					def esQuery = new ESQuery()
 					esQuery.sendPowerapiciData(1322l, scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSVList, testCSVList)
-
 				}
 			}					
 		}
