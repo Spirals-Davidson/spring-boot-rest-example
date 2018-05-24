@@ -204,7 +204,7 @@ public class HotelControllerTest {
 
     @Test
     public void should_test_suite_fibonacci_use_puissance() {
-        assertEquals(832040 , Application.fibonaciRecursif(35));
+        assertEquals(9227465 , Application.fibonaciRecursif(35));
     }
 
 }
