@@ -1,5 +1,9 @@
 @Library('JenkisFile-PowerAPICI') import com.powerapi.*
 
+def getGitBranchName() {
+    return scm.branches[0].name
+}
+
 pipeline {
 
     agent none
@@ -48,7 +52,7 @@ pipeline {
 					
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
 					
-					esQuery.sendPowerapiciData(1322l, "name_branch", "build_name", commitName, appNameXML, powerapiCSV, testCSV)
+					esQuery.sendPowerapiciData(1322l, getGitBranchName, "build_name", commitName, appNameXML, powerapiCSV, testCSV)
 
 				}
 			}					
