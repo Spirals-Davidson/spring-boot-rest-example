@@ -52,7 +52,7 @@ pipeline {
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
 					
 					def esQuery = new ESQuery()
-					sh "echo $debutMVN"
+					
 					esQuery.sendPowerapiciData(debutMVN, scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSVList, testCSVList)
 				}
 			}					
