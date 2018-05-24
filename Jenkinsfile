@@ -48,7 +48,7 @@ pipeline {
 					
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
 					
-					esQuery.sendPowerapiciData(1322l, scm.branches[0].name, "build_name", commitName, appNameXML, powerapiCSV, testCSV)
+					esQuery.sendPowerapiciData(1322l, scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSV, testCSV)
 
 				}
 			}					
