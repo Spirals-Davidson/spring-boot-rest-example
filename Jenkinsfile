@@ -29,25 +29,30 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					def esQuery = new ESQuery()
-					sh "mvn test -DforkCount=0 > test.csv &\n"+
-					   "testPID=\$(echo \$!)\n"+
-					   "powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n"
-					   "powerapiPID=\$(echo \$!)"
-					   //"wait \$testPID\n"+
-					   //"sleep 0.100\n"+
-					   //"kill -9 \$powerapiPID"
+					List<String> powerapiCSVList = new ArrayList<>()
+					List<String> testCSVList	 = new ArrayList<>()
+					for(int i=0; i<3; i++){
+						sh "mvn test -DforkCount=0 > test.csv &\n"+
+						   "testPID=\$(echo \$!)\n"+
+						   "powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n"
+						   "powerapiPID=\$(echo \$!)"
+						   //"wait \$testPID\n"+
+						   //"sleep 0.100\n"+
+						   //"kill -9 \$powerapiPID"
 
-                    sh 'cat data.csv'
-					def powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
+						sh 'cat data.csv'
+						String powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
+						powerapiCSVList.add(powerapiCSV)
 					
-					sh "cat test.csv"
-					def testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d '-' -f 2 | tr -d ' '", returnStdout: true)
+						sh "cat test.csv"
+						String testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d '-' -f 2 | tr -d ' '", returnStdout: true)
+						testCSVList.add(testCSV)
+					}					
 					
 					def commitName = sh (script: "git describe --always", returnStdout: true)
-					
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
 					
+					def esQuery = new ESQuery()
 					esQuery.sendPowerapiciData(1322l, scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSV, testCSV)
 
 				}
