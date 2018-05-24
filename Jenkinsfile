@@ -29,10 +29,10 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					//def debutMVN = sh (script: "date +'%s' | tr -d '\n' ", returnStdout: true)
+					def debutMVN = sh (script: "date +'%s' | tr -d '\n' ", returnStdout: true)
 					List<String> powerapiCSVList = new ArrayList<>()
 					List<String> testCSVList	 = new ArrayList<>()
-					for(int i=0; i<3; i++){
+					for(int i=0; i<1; i++){
 						sh "mvn test -DforkCount=0 > test.csv &\n"+
 						   "testPID=\$(echo \$!)\n"+
 						   "powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n"
@@ -49,14 +49,14 @@ pipeline {
 					
 						String testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d '-' -f 2 | tr -d ' '", returnStdout: true)
 						testCSVList.add(testCSV)
-					}					
+					}	
 					
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
 					
 					def esQuery = new ESQuery()
 					
-					esQuery.sendPowerapiciData(132l, scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSVList, testCSVList)
+					esQuery.sendPowerapiciData(Long.parseLong(debutMVN), scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSVList, testCSVList)
 				}
 			}					
 		}
