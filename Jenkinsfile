@@ -53,7 +53,7 @@ pipeline {
 					
 					def esQuery = new ESQuery()
 					
-					esQuery.sendPowerapiciData(debutMVN, scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSVList, testCSVList)
+					esQuery.sendPowerapiciData(Long.parseLong(debutMVN), scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSVList, testCSVList)
 				}
 			}					
 		}
