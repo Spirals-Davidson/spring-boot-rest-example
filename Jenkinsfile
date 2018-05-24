@@ -29,7 +29,7 @@ pipeline {
 			agent { label 'powerapi' }
 			steps {
 				script {
-					def debutMVN = sh (script: "date +'%s' | tr -d '\n' ", returnStdout: true)
+					//def debutMVN = sh (script: "date +'%s' | tr -d '\n' ", returnStdout: true)
 					List<String> powerapiCSVList = new ArrayList<>()
 					List<String> testCSVList	 = new ArrayList<>()
 					for(int i=0; i<3; i++){
@@ -40,7 +40,10 @@ pipeline {
 						   //"wait \$testPID\n"+
 						   //"sleep 0.100\n"+
 						   //"kill -9 \$powerapiPID"
-						   
+						
+						sh 'cat data.csv'
+						sh 'cat test.csv'
+						
 						String powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 						powerapiCSVList.add(powerapiCSV)
 					
@@ -53,7 +56,7 @@ pipeline {
 					
 					def esQuery = new ESQuery()
 					
-					esQuery.sendPowerapiciData(Long.parseLong(debutMVN), scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSVList, testCSVList)
+					esQuery.sendPowerapiciData(132l, scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSVList, testCSVList)
 				}
 			}					
 		}
