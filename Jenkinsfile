@@ -40,8 +40,7 @@ pipeline {
 						   //"wait \$testPID\n"+
 						   //"sleep 0.100\n"+
 						   //"kill -9 \$powerapiPID"
-						
-						
+							
 						String powerapiCSV = sh (script: "cat data.csv | tr '\n' ' '", returnStdout: true)
 						powerapiCSVList.add(powerapiCSV)
 					
