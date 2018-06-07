@@ -32,11 +32,11 @@ pipeline {
 					def debutMVN = sh (script: "date +'%s' | tr -d '\n' ", returnStdout: true)
 					List<String> powerapiCSVList = new ArrayList<>()
 					List<String> testCSVList	 = new ArrayList<>()
-					for(int i=0; i<50; i++){
-						sh "mvn test -DforkCount=0 > test.csv &\n"+
+					for(int i=0; i<3; i++){
+						sh "mvn test -DforkCount=0 > test.csv &\n"+ 
 						   "testPID=\$(echo \$!)\n"+
 						   "powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n"
-						   //"powerapiPID=\$(echo \$!)"
+						   "powerapiPID=\$(echo \$!)"
 						   //"wait \$testPID\n"+
 						   //"sleep 0.100\n"+
 						   //"kill -9 \$powerapiPID"
