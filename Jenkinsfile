@@ -47,13 +47,12 @@ pipeline {
 						String testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d '-' -f 2 | tr -d ' '", returnStdout: true)
 						testCSVList.add(testCSV)
 					}	
-					echo "${scm.getUserRemoteConfigs()[0].getUrl()}"
 					
 					def commitName = sh (script: "git describe --always", returnStdout: true)
-					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
+					def appMethodsXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
 					
 					def esQuery = new ESQuery()
-					esQuery.sendPowerapiciData(Long.parseLong(debutMVN), scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, appNameXML, powerapiCSVList, testCSVList)
+					esQuery.sendPowerapiciData(Long.parseLong(debutMVN), scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, "${scm.getUserRemoteConfigs()[0].getUrl()}", powerapiCSVList, testCSVList)
 				}
 			}					
 		}
