@@ -51,7 +51,7 @@ pipeline {
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 					def appMethodsXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
 					
-					def esQuery = new ESQuery()
+					def esQuery = new ESQuery() 
 					esQuery.sendPowerapiciData(Long.parseLong(debutMVN), scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, "${scm.getUserRemoteConfigs()[0].getUrl()}", powerapiCSVList, testCSVList)
 				}
 			}					
