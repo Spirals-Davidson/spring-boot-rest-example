@@ -32,7 +32,7 @@ pipeline {
 					def debutMVN = sh (script: "date +'%s' | tr -d '\n' ", returnStdout: true)
 					List<String> powerapiCSVList = new ArrayList<>()
 					List<String> testCSVList	 = new ArrayList<>()
-					for(int i=0; i<50; i++){
+					for(int i=0; i<3; i++){
 						sh "mvn test -DforkCount=0 > test.csv &\n"+ 
 						   "testPID=\$(echo \$!)\n"+
 						   "powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n"
@@ -47,6 +47,7 @@ pipeline {
 						String testCSV = sh (script: "cat test.csv | grep timestamp= | cut -d '-' -f 2 | tr -d ' '", returnStdout: true)
 						testCSVList.add(testCSV)
 					}	
+					echo "${scm.getUserRemoteConfigs()[0].getUrl()}"
 					
 					def commitName = sh (script: "git describe --always", returnStdout: true)
 					def appNameXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
