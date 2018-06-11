@@ -32,7 +32,7 @@ pipeline {
 					def debutMVN = sh (script: "date +'%s' | tr -d '\n' ", returnStdout: true)
 					List<String> powerapiCSVList = new ArrayList<>()
 					List<String> testCSVList	 = new ArrayList<>()
-					for(int i=0; i<50; i++){
+					for(int i=0; i<2; i++){
 						sh "mvn test -DforkCount=0 > test.csv &\n"+ 
 						   "testPID=\$(echo \$!)\n"+
 						   "powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n"
@@ -49,10 +49,10 @@ pipeline {
 					}	
 					
 					def commitName = sh (script: "git describe --always", returnStdout: true)
-					def appMethodsXML = sh (script: "cat target/surefire-reports/TEST-* | sed '1,1d'", returnStdout: true)
+					def appMethodsXML = sh (script: " cat TEST-* | sed s/'testsuite>'/'testsuite>\n'/g | grep '\(testcase\|testsuit\)'", returnStdout: true)
 					
 					def esQuery = new ESQuery() 
-					esQuery.sendPowerapiciData(Long.parseLong(debutMVN), scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, "${scm.getUserRemoteConfigs()[0].getUrl()}", powerapiCSVList, testCSVList)
+					esQuery.sendPowerapiciData(Long.parseLong(debutMVN), scm.branches[0].name, "${env.BUILD_NUMBER}", commitName, "${scm.getUserRemoteConfigs()[0].getUrl()}", powerapiCSVList, testCSVList, appMethodsXML)
 				}
 			}					
 		}
