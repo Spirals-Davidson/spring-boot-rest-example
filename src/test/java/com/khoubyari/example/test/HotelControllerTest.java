@@ -124,7 +124,7 @@ public class HotelControllerTest {
         final Hotel returnedHotel = OBJECT_MAPPER.readerFor(Hotel.class).readValue(jsonArray);
         assertEquals(this.hotel, returnedHotel);
     }
-/*
+
     @Test
     public void should_update_existing_hotel() throws Exception {
         final Hotel updateHotel = new Hotel();
@@ -146,7 +146,7 @@ public class HotelControllerTest {
 
         assertEquals(updateHotel, returnedHotel);
     }
-*/
+
     /*
         @Test(expected = NestedServletException.class)
         public void should_fail_updating_if_hotel_not_exist() throws Exception {

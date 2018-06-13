@@ -24,16 +24,19 @@ public class FiboTest {
         testContextManager.prepareTestInstance(this);
     }
 
-/*
+
     @Test
     public void should_test_suite_fibonacci_courte() {
         assertEquals(Long.parseLong("7810785687120836007"), Application.fibonacci(130));
     }
-    */
-/*
+
     @Test
     public void should_test_suite_fibonacci_use_puissance() {
         assertEquals(9227465 , Application.fibonaciRecursif(35));
     }
-*/
+
+    @Test
+    public void mock_test(){
+        assertEquals(true, true);
+    }
 }
