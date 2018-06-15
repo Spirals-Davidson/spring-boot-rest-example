@@ -8,7 +8,6 @@ import com.khoubyari.example.test.helper.PageHelper;
 import com.khoubyari.example.repository.HotelRepository;
 import com.khoubyari.example.test.listener.MyTestListener;
 import com.khoubyari.example.test.listener.MyTestRunner;
-import com.khoubyari.example.test.listener.NonStaticSetUpListener;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
