@@ -84,12 +84,12 @@ public class HotelControllerTest extends MyTestListener {
 
         this.hotel1 = this.hotelRepository.save(this.hotel1);
     }
-/*
+
     @After
     public void tearDown() {
         this.hotelRepository.deleteAll();
     }
-*/
+
     @Test
     public void should_create_hotel() throws Exception {
         Hotel hotelCreate = new Hotel();
