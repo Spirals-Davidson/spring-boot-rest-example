@@ -6,30 +6,24 @@ import com.khoubyari.example.Application;
 import com.khoubyari.example.entity.Hotel;
 import com.khoubyari.example.test.helper.PageHelper;
 import com.khoubyari.example.repository.HotelRepository;
+import com.khoubyari.example.test.listener.MyTestListener;
 import com.khoubyari.example.test.listener.MyTestRunner;
+import com.khoubyari.example.test.listener.NonStaticSetUpListener;
 import org.junit.*;
 import org.junit.runner.RunWith;
-import org.junit.runner.notification.RunListener;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.BlockJUnit4ClassRunner;
 import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestContextManager;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-
-import java.sql.Timestamp;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MyTestRunner.class)
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("test")
-public class HotelControllerTest {
+public class HotelControllerTest extends MyTestListener {
     private static final String BASE_ROUTE = "/example/v1/hotels/";
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -50,6 +44,7 @@ public class HotelControllerTest {
     private HotelRepository hotelRepository;
 
     private MockMvc mockMvc;
+    private TestContextManager testContextManager;
 
     private Hotel hotel;
     private Hotel hotel1;
@@ -59,14 +54,19 @@ public class HotelControllerTest {
         return OBJECT_MAPPER.writeValueAsString(r).getBytes();
     }
 
-
-    @Before
-    public void setUp() throws Exception {
-        TestContextManager testContextManager;
+    public void beforeClassSetup() throws Exception {
         testContextManager = new TestContextManager(getClass());
         testContextManager.prepareTestInstance(this);
 
         MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        testContextManager = new TestContextManager(getClass());
+        testContextManager.prepareTestInstance(this);
+
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 
         this.hotel = new Hotel();
@@ -85,12 +85,12 @@ public class HotelControllerTest {
 
         this.hotel1 = this.hotelRepository.save(this.hotel1);
     }
-
+/*
     @After
     public void tearDown() {
         this.hotelRepository.deleteAll();
     }
-
+*/
     @Test
     public void should_create_hotel() throws Exception {
         Hotel hotelCreate = new Hotel();

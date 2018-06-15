@@ -10,23 +10,32 @@ import org.junit.runners.model.Statement;
 
 public class MyTestRunner extends BlockJUnit4ClassRunner {
 
+    private MyTestListener instanceMyTestListener;
+
     public MyTestRunner(Class<?> klass) throws InitializationError {
         super(klass);
     }
 
     @Override
+    protected Object createTest() throws Exception {
+        Object test = super.createTest();
+        // Note that JUnit4 will call this createTest() multiple times for each
+        // test method, so we need to ensure to call "beforeClassSetup" only once.
+        if (test instanceof MyTestListener && instanceMyTestListener == null) {
+            instanceMyTestListener = (MyTestListener) test;
+            instanceMyTestListener.beforeClassSetup();
+        }
+        return test;
+    }
+
+    @Override
     public void run (RunNotifier notifier){
-        System.out.println("Executing run()");
-        //Add Listener. This will register our JUnit Listener.
+        super.run(notifier);
         notifier.addListener(new MyTestListener());
 
-        //Get each test notifier
         EachTestNotifier testNotifier = new EachTestNotifier(notifier,
                 getDescription());
         try {
-            //In order capture testRunStarted method
-            //at the very beginning of the test run, we will add below code.
-            //Invoke here the run testRunStarted() method
             notifier.fireTestRunStarted(getDescription());
             Statement statement = classBlock(notifier);
             statement.evaluate();

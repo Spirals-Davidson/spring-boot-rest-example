@@ -40,4 +40,10 @@ public class MyTestListener extends RunListener {
     public void testFailure(Failure failure) {
         log.error(failure.getDescription().getMethodName() + " test FAILED!!!");
     }
+
+    public void beforeClassSetup() throws Exception {
+        log.info("called before class");
+    }
+
+
 }
