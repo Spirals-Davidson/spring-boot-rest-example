@@ -15,6 +15,13 @@ public class Application {
     }
 /*
     public static long fibonacci(int k) {
+            if(n == 0 || n == 1)
+                return n;
+
+            return fibonaciRecursif(n - 1) + fibonaciRecursif(n - 2);
+    }
+*/
+    public static long fibonaciRecursif(int n){
         long c = 1,p = 0, n;
         for(int i=1; i<k; i++){
             n = p + c;
@@ -22,13 +29,7 @@ public class Application {
             c = n;
         }
         return c;
-    }
-*/
-    public static long fibonaciRecursif(int n){
-            if(n == 0 || n == 1)
-                return n;
 
-            return fibonaciRecursif(n - 1) + fibonaciRecursif(n - 2);
     }
 
 
