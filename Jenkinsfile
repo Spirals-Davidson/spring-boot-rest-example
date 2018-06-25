@@ -35,7 +35,7 @@ pipeline {
 					for(int i=0; i<50; i++){
 						sh "mvn test -DforkCount=0 > test.csv &\n"+ 
 						   "testPID=\$(echo \$!)\n"+
-						   "powerapi duration 30 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n"
+						   "powerapi duration 20 modules procfs-cpu-simple monitor --frequency 50 --console --pids \$testPID | grep muid > data.csv \n"
 						   "powerapiPID=\$(echo \$!)"
 						   //"wait \$testPID\n"+
 						   //"sleep 0.100\n"+
