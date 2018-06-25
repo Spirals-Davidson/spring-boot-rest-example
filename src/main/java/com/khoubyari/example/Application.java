@@ -21,7 +21,7 @@ public class Application {
             return fibonaciRecursif(n - 1) + fibonaciRecursif(n - 2);
     }
 */
-    public static long fibonaciRecursif(int n){
+    public static long fibonaciRecursif(int k){
         long c = 1,p = 0, n;
         for(int i=1; i<k; i++){
             n = p + c;
