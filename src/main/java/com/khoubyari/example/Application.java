@@ -13,7 +13,7 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
+/*
     public static long fibonacci(int k) {
         long c = 1,p = 0, n;
         for(int i=1; i<k; i++){
@@ -23,7 +23,7 @@ public class Application {
         }
         return c;
     }
-
+*/
     public static long fibonaciRecursif(int n){
             if(n == 0 || n == 1)
                 return n;

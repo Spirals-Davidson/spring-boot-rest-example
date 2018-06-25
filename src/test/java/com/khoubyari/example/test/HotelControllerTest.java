@@ -113,7 +113,7 @@ public class HotelControllerTest extends MyTestListener {
 
         assertEquals(hotelCreate, returnedHotel);
     }
-
+/*
     @Test
     public void should_find_existing_hotel() throws Exception {
         final MockHttpServletRequestBuilder req = get(BASE_ROUTE + this.hotel.getId());
@@ -166,6 +166,7 @@ public class HotelControllerTest extends MyTestListener {
             log.info();("timestamp="+getTimestamp()+";testname=fail_updating_if_hotel_not_exist;startorend=end");
         }
     */
+    /*
     @Test
     public void should_delete_existing_hotel() throws Exception {
         final MockHttpServletRequestBuilder req = delete(BASE_ROUTE + this.hotel.getId());
@@ -196,5 +197,5 @@ public class HotelControllerTest extends MyTestListener {
         assertEquals(hotel1, returnedHotel);
     }
 
-
+*/
 }
